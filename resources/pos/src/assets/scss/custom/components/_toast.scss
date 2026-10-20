@@ -1,0 +1,130 @@
+@import "~react-toastify/scss/main";
+@import "../../components/variables";
+
+.Toastify {
+    z-index: 999999;
+
+    &__toast {
+        box-shadow: 0 10px 15px -3px rgba(23, 28, 38, 0.08), 0 4px 6px -2px rgba(23, 28, 38, 0.04);
+        border-radius: 10px;
+        min-height: 76px;
+        background-color: $white;
+        border: 1px solid $gray-300;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    &__toast-body {
+        padding: 14px 16px;
+        margin: 0;
+    }
+
+    &__toast-container {
+        width: 360px;
+        opacity: 1;
+    }
+}
+
+.toast-card {
+    font-family: Poppins, Helvetica, "sans-serif";
+    position: relative;
+    width: 100%;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -14px;
+        bottom: -14px;
+        left: -16px;
+        width: 3px;
+        background-color: $success;
+    }
+
+    &.toast-card--error::before {
+        background-color: $danger;
+    }
+
+    &.toast-card--warning::before {
+        background-color: $warning;
+    }
+
+    &__icon {
+        border-radius: 8px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        &--success {
+            color: $success;
+            background-color: $success-light;
+        }
+
+        &--error {
+            color: $danger;
+            background-color: $danger-light;
+        }
+
+        &--warning {
+            color: $yellow-600;
+            background-color: $warning-light;
+        }
+
+        svg {
+            padding: 5px;
+            font-size: 10px;
+        }
+    }
+
+    &__toast-title {
+        color: $gray-900;
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 0.01em;
+        margin-bottom: 2px !important;
+    }
+
+    &__toast-message {
+        color: $gray-700;
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 0 !important;
+        word-break: break-word;
+    }
+
+    &__close-btn {
+        position: absolute;
+        top: -14px;
+        right: -4px;
+        cursor: pointer;
+        color: $gray;
+        display: flex;
+        transition: color 0.15s ease;
+
+        &:hover {
+            color: $gray-900;
+        }
+    }
+}
+
+.Toastify__toast-container--bottom-left {
+    left: 24px !important;
+    bottom: 24px !important;
+}
+
+.Toastify__toast-container--bottom-left {
+    @media (max-width: 480px) {
+        width: calc(100vw - 2em) !important;
+        min-width: unset;
+        max-width: unset;
+        bottom: 1em !important;
+        left: 1em !important;
+        right: 1em !important;
+    }
+}
+
+.Toastify__toast--rtl {
+    direction: ltr;
+}

@@ -1,0 +1,188 @@
+@import "../../components/variables";
+@import "../../base/mixin";
+@import '~react-pro-sidebar/dist/scss/styles';
+
+.pro-sidebar {
+    @media (min-width: 992px) {
+        min-height: 100vh;
+        height: auto;
+    }
+
+    @media (max-width: 992px) {
+        position: fixed;
+        transition: 0.3s ease-in-out;
+        left: -270px;
+        overflow: auto;
+    }
+
+    .pro-sidebar-inner {
+        background-color: $sidebar-bg !important;
+
+        @media (max-width: 992px) {
+            min-height: 100vh;
+            height: auto;
+        }
+
+        .pro-sidebar-layout {
+            overflow-y: hidden;
+        }
+    }
+
+    .pro-menu {
+        padding: 8px 12px !important;
+        &.sidebar-scrolling {
+            height: calc(100% - 70px);
+        }
+
+        .pro-menu-item {
+            .pro-inner-item {
+                border-left: none;
+                border-radius: 8px;
+                margin-bottom: 2px;
+                transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+                padding: 9px 14px;
+                font-size: .875rem;
+                font-weight: 500;
+
+                &:hover {
+                    background-color: $sidebar-hover-bg;
+                    border-left: none;
+
+                    svg, .pro-item-content a {
+                        color: $sidebar-text-hover;
+                    }
+                }
+            }
+
+            &.active {
+                .pro-inner-item {
+                    background-color: $sidebar-active-bg;
+                    border-left: none;
+
+                    svg, .pro-item-content a {
+                        color: $sidebar-active-text;
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            .pro-icon-wrapper {
+                margin-right: 10px !important;
+                margin-left: 0 !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+
+                .pro-icon {
+                    color: $sidebar-text;
+                    font-size: 0.875rem !important;
+                    animation: unset !important;
+                }
+            }
+
+            &.active .pro-icon-wrapper .pro-icon {
+                color: $sidebar-active-text;
+            }
+
+            .pro-item-content {
+                a {
+                    color: $sidebar-text;
+                }
+            }
+
+
+            .pro-inner-list-item {
+                position: relative;
+                background-color: transparent !important;
+                padding: 0px !important;
+            }
+            .pro-inner-list-item ul {
+                padding: 0px !important;
+            }
+
+            .pro-inner-list-item .pro-inner-item {
+                padding: 8px 14px 8px 46px !important;
+                margin-bottom: 0;
+                border-radius: 8px;
+            }
+            span.pro-item-content{
+                color: $sidebar-text;
+            }
+            .pro-inner-list-item ul span.pro-item-content{
+                padding-left: 10px !important;
+            }
+        }
+
+        .pro-menu-item.pro-sub-menu.pro-active-sub  > div > .pro-item-content{
+            color: $sidebar-text-hover !important;
+            font-weight: 600;
+        }
+        .pro-menu-item.pro-sub-menu.pro-active-sub  > div.pro-inner-item{
+            background-color: $sidebar-hover-bg;
+            border-radius: 8px;
+        }
+        .pro-menu-item.pro-sub-menu.pro-active-sub-search  > div{
+            background-color: $sidebar-hover-bg;
+            border-radius: 8px;
+        }
+
+    }
+
+}
+
+.pro-sidebar.collapsed .pro-menu>ul>.pro-menu-item.pro-sub-menu:hover{
+    .react-slidedown.pro-inner-list-item{
+        transition: visibility,transform .3s;
+        position: fixed;
+        left: 82px;
+        margin: 0px;
+        display: block !important;
+        color: $sidebar-text;
+        background-color: $sidebar-bg !important;
+        border: 1px solid $sidebar-border;
+        border-radius: 10px;
+        margin-top: -44px;
+        box-shadow: 0 4px 20px 1px rgb(0 0 0 / 25%), 0 1px 4px rgb(0 0 0 / 20%) !important;
+        }
+}
+
+.react-slidedown {
+    transition-duration: 0.3s !important;
+}
+
+.notShow{
+    display: none;
+}
+
+.openMenu{
+    display: block !important;
+    height: auto !important;
+    transition-duration: 0.5s !important;
+}
+.closeMenu{
+    display: none !important;
+    height: 0px !important;
+    transition-duration: 0.5s !important;
+}
+
+
+.open-menu {
+    @media (max-width: 1199px) {
+        left: 0 !important;
+    }
+}
+
+.bg-overlay {
+    @media (max-width: 992px) {
+        @include bg-overly;
+    }
+}
+
+.header-active {
+    border-bottom: 2px solid $primary;
+    color: $black !important;
+}
+
+.header-tabs:hover, .header-tabs:focus {
+    color: $black !important;
+    border-bottom: 2px solid $primary;
+}

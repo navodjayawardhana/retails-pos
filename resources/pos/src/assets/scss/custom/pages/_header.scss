@@ -1,0 +1,96 @@
+@import "../../components/variables";
+
+.dropdown-menu {
+    position: absolute !important;
+    padding: 1rem 0 !important;
+    top: 0 !important;
+    box-shadow: 0 5px 20px rgb(173 181 189 / 20%);
+    transition: all 400ms ease-in-out;
+    right: 0 !important;
+    left: auto !important;
+
+    .dropdown-item {
+        &:active {
+            background-color: $gray-100;
+            color: $primary;
+        }
+    }
+}
+
+.separator {
+    border-bottom: 1px solid #eff2f5 !important;
+    display: block;
+    height: 0;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    @media (max-width: 400px) {
+        min-width: 230px !important;
+        width: 100% !important;
+        left: unset !important;
+    }
+}
+
+.menu-icon-grid {
+    button {
+        align-items: center;
+        color: $gray-900;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+}
+
+.language-btn {
+    &:hover {
+        background-color: $primary !important;
+        color: $white !important;
+    }
+
+    &:focus {
+        border-color: $white !important;
+    }
+
+    &.language-btn-active {
+        background-color: $primary !important;
+        border-color: $primary !important;
+
+        span {
+            color: $white !important;
+        }
+    }
+
+    img {
+        max-width: 20px;
+    }
+}
+
+.hide-arrow .dropdown-toggle {
+    &:after {
+        content: none !important;
+    }
+}
+
+.pos-button {
+    align-items: center;
+    align-self: center;
+    height: 38px;
+    border: none;
+    color: $white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0 20px;
+    border-radius: $border-radius;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: $primary;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 6px 14px -4px rgba($primary, 0.4);
+  }
+
+  .pos-button-highlight:hover {
+    background-color: $cyan-600;
+    color: $white;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px -4px rgba($primary, 0.45);
+  }

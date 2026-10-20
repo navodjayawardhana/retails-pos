@@ -1,0 +1,400 @@
+@import "../../components/variables";
+
+// Oracle Redwood-style admin UI: page header, list card, toolbar, forms,
+// detail summary, modals and buttons. Purely presentational.
+
+// ---------- page header ----------
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+
+    &__crumbs {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 4px;
+        font-size: 13px;
+        color: $gray-600;
+
+        a {
+            color: $gray-600;
+            text-decoration: none;
+
+            &:hover {
+                color: $primary;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__sep {
+        font-size: 13px;
+        color: $gray-400;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $gray-900;
+        line-height: 1.25;
+    }
+
+    &__actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}
+
+// ---------- buttons ----------
+.btn > svg:first-child {
+    margin-right: 6px;
+    vertical-align: -2px;
+}
+
+.btn-outline-secondary {
+    color: $gray-700;
+    border-color: $gray-300;
+    background-color: $white;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.show {
+        color: $gray-900 !important;
+        background-color: $gray-100 !important;
+        border-color: $gray-400 !important;
+    }
+}
+
+// soft "light" buttons used around the app read as secondary buttons
+.btn-light-primary {
+    color: $primary;
+    background-color: $primary-light;
+    border-color: $primary-light;
+
+    &:hover {
+        color: $white;
+        background-color: $primary;
+        border-color: $primary;
+    }
+}
+
+// ---------- status badges as soft pills ----------
+.badge[class*="bg-light-"] {
+    border-radius: 50rem;
+    padding: 0.35rem 0.75rem;
+    font-weight: 600;
+}
+
+// ---------- list pages: toolbar + table + pagination in one card ----------
+.data-table--card {
+    background-color: $white;
+    border: 1px solid $gray-200;
+    border-radius: $card-border-radius;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    padding: 16px 20px 8px;
+
+    header {
+        background-color: $white !important;
+        padding: 0 0 12px !important;
+        border-bottom: 1px solid $gray-200;
+    }
+
+    .rdt_Table {
+        margin-top: 0 !important;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .rdt_Pagination {
+        background-color: $white !important;
+        margin-top: 8px !important;
+        border-top: 1px solid $gray-200 !important;
+
+        div:nth-child(4) button {
+            background-color: $white !important;
+            border-color: $white !important;
+        }
+    }
+}
+
+.table-search__input {
+    height: 40px;
+}
+
+.table-search__icon {
+    font-size: 16px;
+}
+
+.table-toolbar__filter,
+.table-toolbar__btn,
+.table-toolbar__create {
+    height: 40px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.table-toolbar__filter {
+    width: 40px;
+    padding: 0 !important;
+    font-size: 16px;
+}
+
+// ---------- empty state ----------
+.empty-state {
+    padding: 40px 16px;
+    text-align: center;
+    color: $gray-600;
+
+    &__icon {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        background-color: $gray-100;
+        color: $gray-600;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__text {
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
+
+// ---------- forms ----------
+.form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $gray-900;
+    margin-bottom: 6px;
+}
+
+.form-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid $gray-200;
+
+    .btn {
+        min-width: 110px;
+    }
+}
+
+.modal-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .btn {
+        min-width: 100px;
+        margin: 0;
+    }
+}
+
+// ---------- modals ----------
+.modal-content {
+    border: 1px solid $gray-200;
+}
+
+.modal-header {
+    border-bottom: 1px solid $gray-200;
+
+    .modal-title {
+        font-weight: 600;
+        color: $gray-900;
+    }
+}
+
+.modal-footer {
+    border-top: 1px solid $gray-200;
+    gap: 10px;
+}
+
+.delete-modal__btn {
+    min-width: 110px;
+    margin: 0 6px 12px !important;
+    border-radius: $border-radius !important;
+    box-shadow: none !important;
+}
+
+// ---------- detail pages ----------
+.detail-summary {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+    padding: 16px 20px;
+    border: 1px solid $gray-200;
+    border-radius: $card-border-radius;
+    background-color: $gray-100;
+
+    &__items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px 32px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background-color: $white;
+        color: $primary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        border: 1px solid $gray-200;
+    }
+
+    &__label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $gray-600;
+    }
+
+    &__value {
+        font-size: 14px;
+        font-weight: 600;
+        color: $gray-900;
+    }
+
+    &__total {
+        text-align: right;
+        align-self: center;
+    }
+
+    &__amount {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $primary;
+    }
+}
+
+// section headings inside detail pages (Customer Info / Company Info / ...)
+.custom-line-height h5.bg-light {
+    background-color: transparent !important;
+    border-bottom: 1px solid $gray-200;
+    padding: 0 0 8px !important;
+    margin: 0 0 4px !important;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: $gray-600 !important;
+}
+
+.custom-line-height .p-4 {
+    padding: 12px 0 !important;
+}
+
+@media (max-width: 991px) {
+    .page-header {
+        align-items: flex-start;
+    }
+
+    .detail-summary__total {
+        text-align: left;
+    }
+}
+
+// ---------- list toolbar layout ----------
+// The toolbar children carry Bootstrap col-*/margin utilities from the old
+// layout; they sit outside a .row, so normalise them into one flex row here.
+.data-table--card {
+    // wrapper also has Bootstrap's pt-0 (!important)
+    padding-top: 20px !important;
+
+    header {
+        display: flex !important;
+        flex-wrap: wrap;
+        align-items: center !important;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 0;
+        padding: 0 0 18px !important;
+        margin-bottom: 4px;
+
+        > .searchBox {
+            flex: 1 1 260px;
+            width: auto;
+            max-width: 380px;
+            margin: 0 !important;
+            padding: 0;
+
+            .width-320 {
+                width: 100%;
+            }
+
+            .form-control {
+                height: 40px;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+
+        > [class*="col"]:not(.searchBox) {
+            flex: 1 1 auto;
+            width: auto;
+            max-width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center !important;
+            justify-content: flex-end;
+            gap: 10px;
+            margin: 0 !important;
+            padding: 0;
+
+            > * {
+                margin: 0 !important;
+            }
+        }
+
+        .custom-dateRange-picker {
+            width: 250px !important;
+            max-width: 100%;
+
+            .form-control {
+                height: 40px;
+            }
+        }
+    }
+
+    @media (max-width: 767px) {
+        header {
+            > .searchBox {
+                max-width: 100%;
+                flex-basis: 100%;
+            }
+
+            > [class*="col"]:not(.searchBox) {
+                justify-content: flex-start;
+            }
+        }
+    }
+}
