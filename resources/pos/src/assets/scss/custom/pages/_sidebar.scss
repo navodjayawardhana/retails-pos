@@ -186,3 +186,12 @@
     color: $black !important;
     border-bottom: 2px solid $primary;
 }
+
+// Icons differ in width, which made menu labels start at different x
+// positions; give every icon the same box so labels line up.
+.pro-sidebar .pro-menu .pro-menu-item .pro-icon-wrapper {
+    width: 20px !important;
+    min-width: 20px !important;
+    display: inline-flex !important;
+    justify-content: center;
+}

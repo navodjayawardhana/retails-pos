@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
     ProSidebar,
@@ -37,6 +37,40 @@ const AsideMenu = (props) => {
     useEffect(() => {
         updateMenu();
     }, [updatedLanguage]);
+
+    // Every page renders its own MasterLayout, so the sidebar remounts on
+    // navigation and would jump back to the top; keep its scroll position.
+    useLayoutEffect(() => {
+        const scroller = [
+            ".aside-menu-container .sidebar-scrolling",
+            ".aside-menu-container .pro-sidebar-layout",
+            ".aside-menu-container .pro-sidebar-inner",
+        ]
+            .map((selector) => document.querySelector(selector))
+            .find(
+                (el) =>
+                    el &&
+                    ["auto", "scroll"].includes(getComputedStyle(el).overflowY)
+            );
+        if (!scroller) return;
+
+        const saved = Number(sessionStorage.getItem("sidebar-scroll-top"));
+        if (saved) scroller.scrollTop = saved;
+
+        const active = scroller.querySelector(".pro-menu-item.active");
+        if (active) {
+            const box = scroller.getBoundingClientRect();
+            const item = active.getBoundingClientRect();
+            if (item.top < box.top || item.bottom > box.bottom) {
+                active.scrollIntoView({ block: "nearest" });
+            }
+        }
+
+        const onScroll = () =>
+            sessionStorage.setItem("sidebar-scroll-top", scroller.scrollTop);
+        scroller.addEventListener("scroll", onScroll, { passive: true });
+        return () => scroller.removeEventListener("scroll", onScroll);
+    }, []);
 
     // ar MenuHendling
     const updateMenu = () => {

@@ -1473,15 +1473,13 @@ div .rdt_Pagination div:first-of-type svg {
 
 .custom-search {
   font-family: Poppins, Helvetica, "sans-serif";
-}
-.custom-search:nth-child(1) {
   position: relative !important;
   height: 46px !important;
 }
 .custom-search .wrapper {
   z-index: 11 !important;
   border: none !important;
-  border-radius: 0.475rem !important;
+  border-radius: 0.5rem !important;
   background-color: transparent !important;
   box-shadow: none !important;
   padding-left: 0 !important;
@@ -1496,7 +1494,7 @@ div .rdt_Pagination div:first-of-type svg {
   font-size: 14px !important;
   background: #FFFFFF !important;
   border: 1px solid #ced4da !important;
-  border-radius: 0.475rem !important;
+  border-radius: 0.5rem !important;
 }
 .custom-search .wrapper div:nth-child(2) > .line {
   display: none !important;
@@ -1543,12 +1541,12 @@ div .rdt_Pagination div:first-of-type svg {
   background-color: #1E3A8A !important;
 }
 .custom-search .wrapper div:nth-child(2) .selected:first-child {
-  border-top-left-radius: 0.475rem !important;
-  border-top-right-radius: 0.475rem !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
 }
 .custom-search .wrapper div:nth-child(2) .selected:last-child {
-  border-bottom-left-radius: 0.475rem !important;
-  border-bottom-right-radius: 0.475rem !important;
+  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
 }
 .custom-search .wrapper div:nth-child(2) .selected:before, .custom-search .wrapper div:nth-child(2) .selected .ellipsis span {
   color: #FFFFFF !important;
@@ -1560,23 +1558,30 @@ div .rdt_Pagination div:first-of-type svg {
   font-size: 0.875rem !important;
   font-weight: 400 !important;
   line-height: 1.5 !important;
-  color: #6C757D !important;
+  height: 46px !important;
+  color: #212529 !important;
   background-color: #FFFFFF !important;
   background-clip: padding-box !important;
-  border: 1px solid #CED4DA !important;
+  border: 1px solid #DEE2E6 !important;
   appearance: none !important;
   padding-left: 42px !important;
-  border-radius: 0.475rem !important;
+  border-radius: 0.5rem !important;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
   font-family: Poppins, Helvetica, "sans-serif" !important;
 }
 .custom-search input::placeholder {
   color: #6C757D !important;
 }
+.custom-search input:focus {
+  border-color: #1E3A8A !important;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.12) !important;
+  outline: none !important;
+}
 
 .react-search-icon {
-  left: 13px !important;
-  top: 15px !important;
+  left: 15px !important;
+  width: 15px !important;
+  height: 15px !important;
   z-index: 99 !important;
   right: auto !important;
 }
@@ -2711,6 +2716,23 @@ div .rdt_Pagination div:first-of-type svg {
   .data-table--card header > [class*=col]:not(.searchBox) {
     justify-content: flex-start;
   }
+}
+
+.card > .card-body > .row > [class*=col-md-],
+.card > .card-body > .row > [class*=col-lg-] {
+  margin-bottom: 1.25rem;
+}
+
+.custom-search {
+  margin-bottom: 0.75rem;
+}
+
+.data-table.data-table--card {
+  padding-top: 20px !important;
+}
+.data-table.data-table--card .bnAwAJ,
+.data-table.data-table--card .iOIgTb {
+  min-width: 110px !important;
 }
 
 .contents {
@@ -4093,6 +4115,13 @@ div .rdt_Pagination div:first-of-type svg {
 .header-tabs:hover, .header-tabs:focus {
   color: #060917 !important;
   border-bottom: 2px solid #1E3A8A;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item .pro-icon-wrapper {
+  width: 20px !important;
+  min-width: 20px !important;
+  display: inline-flex !important;
+  justify-content: center;
 }
 
 .barcode-main {

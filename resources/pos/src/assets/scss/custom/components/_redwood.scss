@@ -398,3 +398,30 @@
         }
     }
 }
+
+// ---------- form field spacing ----------
+// Create/edit forms put field columns straight inside .card-body > .row with
+// no vertical margin, so labels sat directly under the previous row's inputs.
+.card > .card-body > .row > [class*="col-md-"],
+.card > .card-body > .row > [class*="col-lg-"] {
+    margin-bottom: 1.25rem;
+}
+
+.custom-search {
+    margin-bottom: 0.75rem;
+}
+
+// ---------- list card fixes ----------
+// The wrapper also carries Bootstrap's .pt-0 (!important, same specificity,
+// loaded later), so a two-class selector is needed for the top padding to win.
+.data-table.data-table--card {
+    padding-top: 20px !important;
+
+    // _react-datatable.scss forces 150px min-width on every column via
+    // styled-components classes; inside the card that pushes the action
+    // column past the right edge on ~1440px screens.
+    .bnAwAJ,
+    .iOIgTb {
+        min-width: 110px !important;
+    }
+}

@@ -23,7 +23,9 @@ class CustomPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        $path = '{PARENT_DIR}' . DIRECTORY_SEPARATOR . $media->id . DIRECTORY_SEPARATOR;
+        // Always '/', never DIRECTORY_SEPARATOR: this path is also used to build
+        // public URLs, and '\' on Windows breaks them (e.g. CSS url() escapes).
+        $path = '{PARENT_DIR}/' . $media->id . '/';
         switch ($media->collection_name) {
             case Brand::PATH:
                 return str_replace('{PARENT_DIR}', Brand::PATH, $path);

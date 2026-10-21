@@ -1,15 +1,14 @@
 .custom-search {
     font-family: Poppins, Helvetica, "sans-serif";
-
-    &:nth-child(1) {
-        position: relative !important;
-        height: 46px !important;
-    }
+    // the autocomplete wrapper is absolutely positioned, so the container
+    // must reserve the input's height or following content slides under it
+    position: relative !important;
+    height: 46px !important;
 
     .wrapper {
         z-index: 11 !important;
         border: none !important;
-        border-radius: 0.475rem !important;
+        border-radius: $border-radius !important;
         background-color: transparent !important;
         box-shadow: none !important;
         padding-left: 0 !important;
@@ -24,7 +23,7 @@
             font-size: 14px !important;
             background: $white !important;
             border: 1px solid #ced4da !important;
-            border-radius: 0.475rem !important;
+            border-radius: $border-radius !important;
 
             > .line {
                 display: none !important;
@@ -77,13 +76,13 @@
                 background-color: $primary !important;
 
                 &:first-child {
-                    border-top-left-radius: 0.475rem !important;
-                    border-top-right-radius: 0.475rem !important;
+                    border-top-left-radius: $border-radius !important;
+                    border-top-right-radius: $border-radius !important;
                 }
 
                 &:last-child {
-                    border-bottom-left-radius: 0.475rem !important;
-                    border-bottom-right-radius: 0.475rem !important;
+                    border-bottom-left-radius: $border-radius !important;
+                    border-bottom-right-radius: $border-radius !important;
                 }
 
                 &:before, .ellipsis span {
@@ -100,25 +99,34 @@
         font-size: 0.875rem !important;
         font-weight: 400 !important;
         line-height: 1.5 !important;
-        color: #6C757D !important;
+        height: 46px !important;
+        color: $gray-900 !important;
         background-color: #FFFFFF !important;
         background-clip: padding-box !important;
-        border: 1px solid #CED4DA !important;
+        border: 1px solid $gray-300 !important;
         appearance: none !important;
         padding-left: 42px !important;
-        border-radius: 0.475rem !important;
+        border-radius: $border-radius !important;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
         font-family: Poppins, Helvetica, "sans-serif" !important;
 
         &::placeholder {
-            color: #6C757D !important;
+            color: $gray-600 !important;
+        }
+
+        &:focus {
+            border-color: $primary !important;
+            box-shadow: 0 0 0 3px rgba($primary, 0.12) !important;
+            outline: none !important;
         }
     }
 }
 
 .react-search-icon {
-    left: 13px !important;
-    top: 15px !important;
+    // centred by the element's own top-0/bottom-0/my-auto utilities
+    left: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
     z-index: 99 !important;
     right: auto !important;
 }
