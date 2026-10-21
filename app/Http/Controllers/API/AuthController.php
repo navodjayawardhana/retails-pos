@@ -78,6 +78,8 @@ class AuthController extends AppBaseController
         unset($user->permissions);
         $token = $user->createToken('token')->plainTextToken;
         $user->last_name = $user->last_name ?? '';
+        // HRM: auto clock-in for users linked to an employee (never throws)
+        app(\App\Services\Hrm\AttendanceService::class)->autoClockInOnLogin($user);
 
         return response()->json([
             'data' => [
@@ -103,6 +105,8 @@ class AuthController extends AppBaseController
 
     public function logout(): JsonResponse
     {
+        // HRM: optional auto clock-out (never throws)
+        app(\App\Services\Hrm\AttendanceService::class)->autoClockOutOnLogout(auth()->user());
         auth()->user()->tokens()->where('id', Auth::user()->currentAccessToken()->id)->delete();
 
         return $this->sendSuccess('Logout Successfully');

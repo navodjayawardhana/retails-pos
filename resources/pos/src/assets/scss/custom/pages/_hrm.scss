@@ -1,0 +1,1107 @@
+@import "../../components/variables";
+
+// HRM module styles (employees, departments, designations, HR settings)
+
+.hrm-person {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    &__photo {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+
+        &--empty {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $primary-light;
+            color: $primary;
+            font-size: 17px;
+        }
+    }
+
+    &__name {
+        display: block;
+        font-weight: 600;
+        color: $gray-900;
+    }
+
+    &__code {
+        display: block;
+        font-size: 12px;
+        color: $gray-600;
+    }
+}
+
+.hrm-form-section {
+    .card-body {
+        padding-bottom: 0.5rem;
+    }
+}
+
+.hrm-form-hint {
+    font-size: 12.5px;
+    color: $gray-600;
+    margin-bottom: 0.75rem;
+}
+
+.hrm-photo-input {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    &__preview {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+
+        &--empty {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $primary-light;
+            color: $primary;
+            font-size: 26px;
+        }
+    }
+
+    .form-control {
+        max-width: 360px;
+    }
+}
+
+.hrm-login-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hrm-login-mode {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: $border-radius;
+    border: 1px solid $gray-300;
+    background-color: $white;
+    color: $gray-700;
+    font-weight: 500;
+
+    &--active {
+        border-color: $primary;
+        background-color: $primary-light;
+        color: $primary;
+    }
+}
+
+.hrm-linked-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid $gray-200;
+    border-radius: $border-radius-lg;
+    background-color: $gray-100;
+
+    > svg {
+        color: $primary;
+        font-size: 18px;
+    }
+}
+
+// ---------- employee detail ----------
+.hrm-summary__body {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.hrm-summary__photo {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+
+    &--empty {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-light;
+        color: $primary;
+        font-size: 32px;
+    }
+}
+
+.hrm-summary__main {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+
+.hrm-summary__name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 20px;
+    font-weight: 700;
+    color: $gray-900;
+}
+
+.hrm-summary__sub {
+    margin-top: 2px;
+    color: $gray-600;
+}
+
+.hrm-summary__login {
+    margin-top: 6px;
+    font-size: 13px;
+    color: $primary;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hrm-summary__facts {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+
+    > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    span {
+        font-size: 11.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: $gray-600;
+    }
+
+    strong {
+        color: $gray-900;
+        font-weight: 600;
+    }
+}
+
+.hrm-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid $gray-200;
+    overflow-x: auto;
+
+    &__tab {
+        border: none;
+        background: none;
+        padding: 14px 14px 12px;
+        font-weight: 500;
+        color: $gray-600;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+
+        &:hover {
+            color: $gray-900;
+        }
+
+        &--active {
+            color: $primary;
+            border-bottom-color: $primary;
+            font-weight: 600;
+        }
+    }
+}
+
+.hrm-profile {
+    &__group {
+        margin-bottom: 1.75rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__group-title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: $gray-600;
+        margin-bottom: 12px;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 14px 24px;
+    }
+
+    &__label {
+        font-size: 12.5px;
+        color: $gray-600;
+    }
+
+    &__value {
+        color: $gray-900;
+        font-weight: 500;
+        word-break: break-word;
+    }
+
+    &__notes {
+        white-space: pre-wrap;
+        color: $gray-900;
+    }
+}
+
+.hrm-doc-upload {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+
+    .form-control {
+        flex: 1 1 220px;
+    }
+}
+
+.hrm-doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hrm-doc {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid $gray-200;
+    border-radius: $border-radius;
+
+    &__icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background-color: $primary-light;
+        color: $primary;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        flex-shrink: 0;
+    }
+
+    &__body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__name {
+        font-weight: 600;
+        color: $gray-900;
+    }
+
+    &__meta {
+        font-size: 12px;
+        color: $gray-600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+// ---------- HR settings ----------
+.hrm-day-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hrm-day {
+    min-width: 56px;
+    height: 40px;
+    border-radius: $border-radius;
+    border: 1px solid $gray-300;
+    background-color: $white;
+    color: $gray-700;
+    font-weight: 500;
+
+    &--active {
+        border-color: $primary;
+        background-color: $primary;
+        color: $white;
+    }
+}
+
+.hrm-toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding-left: 0;
+
+    .form-check-input {
+        margin-left: 0;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    &__label {
+        display: block;
+        font-weight: 600;
+        color: $gray-900;
+    }
+
+    &__hint {
+        display: block;
+        font-size: 12.5px;
+        color: $gray-600;
+    }
+}
+
+// ---------- HRM phase 2: attendance, shifts, holidays ----------
+.hrm-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+
+    &__date {
+        width: 190px;
+        height: 40px;
+    }
+
+    &__actions {
+        margin-left: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    @media (max-width: 767px) {
+        &__actions {
+            margin-left: 0;
+        }
+    }
+}
+
+.hrm-tabs.mb-4 {
+    padding: 0;
+}
+
+.hrm-simple-table {
+    thead th {
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        color: $gray-600;
+        white-space: nowrap;
+        border-bottom-width: 1px;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+.hrm-att-grid {
+    thead th {
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        color: $gray-600;
+        white-space: nowrap;
+        background-color: $gray-100;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+
+    th:first-child,
+    td:first-child {
+        padding-left: 1.5rem;
+    }
+
+    tr.is-dirty td {
+        background-color: rgba($warning, 0.08);
+    }
+
+    .form-control-sm,
+    .form-select-sm {
+        min-width: 110px;
+        height: 34px;
+    }
+}
+
+.hrm-att-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+}
+
+.hrm-att-chip {
+    min-width: 96px;
+    padding: 10px 14px;
+    border-radius: $border-radius;
+    border: 1px solid $gray-200;
+    background-color: $white;
+    display: flex;
+    flex-direction: column;
+
+    &__value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: $gray-900;
+        line-height: 1.2;
+    }
+
+    &__label {
+        font-size: 0.75rem;
+        color: $gray-600;
+    }
+
+    &--present { border-left: 3px solid $success; }
+    &--late { border-left: 3px solid $warning; }
+    &--half_day { border-left: 3px solid $info; }
+    &--absent { border-left: 3px solid $danger; }
+    &--leave { border-left: 3px solid $primary; }
+    &--holiday,
+    &--weekend { border-left: 3px solid $gray-600; }
+    &--unmarked { border-left: 3px solid $gray-300; }
+    &--ot { border-left: 3px solid $primary; }
+}
+
+.hrm-att-month {
+    &__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 1.25rem;
+    }
+
+    &__shift {
+        color: $gray-700;
+        font-size: 0.875rem;
+    }
+}
+
+.hrm-clock-card {
+    &__body {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 24px;
+        padding: 1.25rem 1.5rem;
+    }
+
+    &__name {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: $gray-900;
+    }
+
+    &__today {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__actions {
+        margin-left: auto;
+        display: flex;
+        gap: 10px;
+
+        .btn {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+    }
+}
+
+.hrm-date-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hrm-date-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px 4px 12px;
+    border-radius: 999px;
+    background-color: $primary-light;
+    color: $primary;
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    button {
+        border: none;
+        background: none;
+        color: inherit;
+        display: inline-flex;
+        padding: 2px;
+    }
+}
+
+.hrm-import-preview {
+    max-height: 420px;
+    overflow-y: auto;
+
+    tr.is-error td {
+        background-color: rgba($danger, 0.06);
+    }
+}
+
+.hrm-month-sheet {
+    table {
+        font-size: 0.8rem;
+    }
+
+    th,
+    td {
+        padding: 6px 4px !important;
+        white-space: nowrap;
+    }
+
+    thead th {
+        color: $gray-600;
+        font-weight: 600;
+        background-color: $gray-100;
+    }
+
+    th.is-sunday {
+        color: $danger;
+    }
+
+    &__wd {
+        font-size: 0.65rem;
+        font-weight: 500;
+    }
+
+    &__sticky {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: $white;
+        min-width: 180px;
+        padding-left: 12px !important;
+        box-shadow: 1px 0 0 $gray-200;
+    }
+
+    thead &__sticky {
+        background-color: $gray-100;
+    }
+}
+
+.hrm-code {
+    display: inline-block;
+    min-width: 24px;
+    padding: 1px 3px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    &--p { background-color: $success-light; color: $success; }
+    &--l { background-color: $warning-light; color: darken($warning, 15%); }
+    &--hd { background-color: $info-light; color: $info; }
+    &--a { background-color: $danger-light; color: $danger; }
+    &--lv { background-color: $primary-light; color: $primary; }
+    &--h,
+    &--w { background-color: $gray-100; color: $gray-600; }
+    &--u { color: $gray-400; }
+}
+
+// ---------- Leave (phase 3) ----------
+.hrm-section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $gray-900;
+    margin-bottom: 14px;
+}
+
+.hrm-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.hrm-leave-tab .fw-600,
+.hrm-leave-grid .fw-600 {
+    font-weight: 600;
+}
+
+.hrm-leave-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+    color: $gray-900;
+    white-space: nowrap;
+
+    &__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+}
+
+.hrm-leave-balances {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.hrm-leave-balance {
+    border: 1px solid $gray-200;
+    border-top: 3px solid $primary;
+    border-radius: $border-radius-lg;
+    padding: 14px 16px;
+    background-color: $white;
+
+    &__name {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+
+    &__value {
+        font-size: 26px;
+        font-weight: 700;
+        color: $gray-900;
+        line-height: 1.1;
+
+        span {
+            font-size: 13px;
+            font-weight: 500;
+            color: $gray-600;
+            margin-left: 6px;
+        }
+    }
+
+    &__meta {
+        margin-top: 6px;
+        font-size: 12px;
+        color: $gray-600;
+    }
+}
+
+.hrm-leave-preview {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 20px;
+    padding: 12px 16px;
+    border-radius: $border-radius;
+    background-color: $primary-light;
+    color: $gray-900;
+    font-size: 14px;
+
+    &--error {
+        background-color: $danger-light;
+    }
+
+    &__error {
+        flex-basis: 100%;
+        color: $danger;
+        font-weight: 500;
+    }
+}
+
+.hrm-leave-decision {
+    padding: 12px 14px;
+    border-radius: $border-radius;
+    background-color: $gray-100;
+
+    &__name {
+        font-weight: 600;
+        color: $gray-900;
+        margin-bottom: 4px;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+        font-size: 13px;
+        color: $gray-700;
+    }
+}
+
+.hrm-num-input {
+    max-width: 110px;
+    height: 36px;
+}
+
+.hrm-leave-grid {
+    th,
+    td {
+        white-space: nowrap;
+    }
+}
+
+// month calendar
+.hrm-cal-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hrm-cal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.hrm-cal-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    font-size: 13px;
+
+    &__pending {
+        padding: 1px 8px;
+        border: 1px dashed $gray-600;
+        border-radius: 4px;
+        color: $gray-600;
+    }
+}
+
+.hrm-cal {
+    border: 1px solid $gray-200;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+
+    &__row {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+
+        &--head {
+            background-color: $gray-100;
+        }
+
+        & + & {
+            border-top: 1px solid $gray-200;
+        }
+    }
+
+    &__wd {
+        padding: 8px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: $gray-600;
+    }
+
+    &__cell {
+        min-height: 104px;
+        padding: 6px 6px 8px;
+        min-width: 0;
+
+        & + & {
+            border-left: 1px solid $gray-200;
+        }
+
+        &--out {
+            background-color: $gray-100;
+
+            .hrm-cal__day {
+                color: $gray-400;
+            }
+        }
+
+        &--today .hrm-cal__day {
+            background-color: $primary;
+            color: $white;
+        }
+    }
+
+    &__day {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        padding: 0 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: $gray-900;
+        margin-bottom: 4px;
+    }
+
+    &__item {
+        font-size: 11.5px;
+        line-height: 1.3;
+        padding: 3px 6px;
+        margin-bottom: 3px;
+        border-left: 3px solid $primary;
+        border-radius: 4px;
+        color: $gray-900;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &--pending {
+            border-left-style: dashed;
+            opacity: 0.75;
+        }
+    }
+
+    &__more {
+        font-size: 11px;
+        color: $gray-600;
+        padding-left: 4px;
+    }
+
+    @media (max-width: 767px) {
+        &__cell {
+            min-height: 70px;
+        }
+
+        &__item {
+            font-size: 10px;
+        }
+    }
+}
+
+// ---------- Payroll (phase 4) ----------
+.hrm-payslip-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    &__name {
+        font-size: 16px;
+        font-weight: 600;
+        color: $gray-900;
+    }
+
+    &__sub {
+        font-size: 12.5px;
+        color: $gray-600;
+    }
+}
+
+.hrm-payslip-period {
+    font-size: 13px;
+    font-weight: 600;
+    color: $primary;
+    background-color: rgba($primary, 0.08);
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+
+.hrm-payslip-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.hrm-payslip-fact {
+    border: 1px solid $gray-200;
+    border-radius: 8px;
+    padding: 8px 10px;
+
+    &__label {
+        display: block;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: $gray-600;
+    }
+
+    &__value {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        color: $gray-900;
+    }
+}
+
+.hrm-payslip-lines {
+    margin-bottom: 16px;
+
+    &__head {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: $gray-600;
+        padding-bottom: 6px;
+        border-bottom: 1px solid $gray-200;
+        margin-bottom: 4px;
+    }
+
+    &__empty {
+        font-size: 13px;
+        color: $gray-500;
+        padding: 6px 0;
+    }
+}
+
+.hrm-payslip-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 13.5px;
+    border-bottom: 1px dashed $gray-200;
+
+    &__label {
+        flex: 1 1 auto;
+        min-width: 0;
+        color: $gray-900;
+    }
+
+    &__basis {
+        display: block;
+        font-size: 11.5px;
+        color: $gray-600;
+    }
+
+    &__amount {
+        flex: 0 0 auto;
+        font-variant-numeric: tabular-nums;
+        font-weight: 500;
+        text-align: right;
+    }
+
+    &--total {
+        border-bottom: 0;
+        font-weight: 600;
+
+        .hrm-payslip-line__amount {
+            font-weight: 700;
+        }
+    }
+}
+
+.hrm-payslip-net {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: rgba($primary, 0.08);
+    color: $primary;
+    font-size: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 16px;
+}
+
+.hrm-payslip-adjust {
+    border: 1px dashed $gray-300;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.hrm-payroll-totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.hrm-payroll-total {
+    background-color: $white;
+    border: 1px solid $gray-200;
+    border-radius: 10px;
+    padding: 12px 14px;
+
+    &__label {
+        display: block;
+        font-size: 12px;
+        color: $gray-600;
+        margin-bottom: 2px;
+    }
+
+    &__value {
+        display: block;
+        font-size: 18px;
+        font-weight: 700;
+        color: $gray-900;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.hrm-payroll-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.hrm-payroll-tab {
+    .hrm-section-title + .hrm-form-hint {
+        margin-top: -4px;
+    }
+}
+
+// ---------- HR dashboard ----------
+.hr-dash-list {
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.hr-dash-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid $gray-200;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    > span:first-child {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+
+        strong {
+            color: $gray-900;
+            font-weight: 600;
+        }
+
+        small {
+            color: $gray-600;
+            font-size: 12px;
+        }
+    }
+}

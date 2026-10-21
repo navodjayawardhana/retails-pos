@@ -3,6 +3,7 @@
 namespace App\MediaLibrary;
 
 use App\Models\Brand;
+use App\Models\Employee;
 use App\Models\MainProduct;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -48,8 +49,15 @@ class CustomPathGenerator implements PathGenerator
                 return str_replace('{PARENT_DIR}', SaleReturn::SALE_RETURN_PDF, $path);
             case Sale::SALE_BARCODE_PATH:
                 return str_replace('{PARENT_DIR}', Sale::SALE_BARCODE_PATH, $path);
+            case Employee::PHOTO_PATH:
+                return str_replace('{PARENT_DIR}', Employee::PHOTO_PATH, $path);
+            case Employee::DOCUMENT_PATH:
+                return str_replace('{PARENT_DIR}', Employee::DOCUMENT_PATH, $path);
             case 'default':
                 return '';
+            default:
+                // any new collection gets a folder named after it
+                return str_replace('{PARENT_DIR}', $media->collection_name, $path);
         }
     }
 

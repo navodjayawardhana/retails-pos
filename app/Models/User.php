@@ -147,9 +147,15 @@ class User extends Authenticatable implements HasMedia, JsonResourceful, CanRese
             'role' => $this->roles,
             'created_at' => $this->created_at,
             'language' => $this->language,
+            'employee_id' => optional($this->employee)->id,
         ];
 
         return $fields;
+    }
+
+    public function employee(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Employee::class);
     }
 
     public function sendPasswordResetNotification($token)

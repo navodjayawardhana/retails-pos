@@ -7,6 +7,7 @@ import {Image} from 'react-bootstrap-v5';
 import MasterLayout from '../MasterLayout';
 import TabTitle from '../../shared/tab-title/TabTitle';
 import HeaderTitle from '../header/HeaderTitle';
+import EmployeeLinkButton from '../hrm/employees/EmployeeLinkButton';
 import {getAvatarName, placeholderText} from '../../shared/sharedMethod';
 import {getFormattedMessage} from '../../shared/sharedMethod';
 import {useParams} from 'react-router-dom';
@@ -89,6 +90,13 @@ const UserDetail = (props) => {
                                                className='text-gray-600 text-decoration-none fs-4'>
                                                 {user && user.attributes.email}
                                             </a>
+                                            {user && (
+                                                <div className='mt-4'>
+                                                    <EmployeeLinkButton userId={user.id}
+                                                                        employeeId={user.attributes.employee_id}
+                                                                        withLabel/>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

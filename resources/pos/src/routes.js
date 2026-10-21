@@ -6,6 +6,30 @@ import CreateWarehouse from "./components/warehouse/CreateWarehouse";
 import EditWarehouse from "./components/warehouse/EditWarehouse";
 import ProductCategory from "./components/productCategory/ProductCategory";
 import Units from "./components/units/Units";
+import Employees from "./components/hrm/employees/Employees";
+import CreateEmployee from "./components/hrm/employees/CreateEmployee";
+import EditEmployee from "./components/hrm/employees/EditEmployee";
+import EmployeeDetail from "./components/hrm/employees/EmployeeDetail";
+import Departments from "./components/hrm/departments/Departments";
+import Designations from "./components/hrm/designations/Designations";
+import HrSettings from "./components/hrm/settings/HrSettings";
+import Shifts from "./components/hrm/shifts/Shifts";
+import Holidays from "./components/hrm/holidays/Holidays";
+import Attendance from "./components/hrm/attendance/Attendance";
+import MyAttendance from "./components/hrm/attendance/MyAttendance";
+import AttendanceReports from "./components/hrm/attendance/AttendanceReports";
+import LeaveRequests from "./components/hrm/leave/LeaveRequests";
+import MyLeave from "./components/hrm/leave/MyLeave";
+import LeaveCalendar from "./components/hrm/leave/LeaveCalendar";
+import LeaveTypes from "./components/hrm/leave/LeaveTypes";
+import LeaveBalances from "./components/hrm/leave/LeaveBalances";
+import PayrollRuns from "./components/hrm/payroll/PayrollRuns";
+import PayrollRunDetail from "./components/hrm/payroll/PayrollRunDetail";
+import SalaryComponents from "./components/hrm/payroll/SalaryComponents";
+import Loans from "./components/hrm/payroll/Loans";
+import MyPayslips from "./components/hrm/payroll/MyPayslips";
+import PayrollReports from "./components/hrm/payroll/PayrollReports";
+import HrDashboard from "./components/hrm/dashboard/HrDashboard";
 import Suppliers from "./components/supplier/Suppliers";
 import CreateSupplier from "./components/supplier/CreateSupplier";
 import EditSupplier from "./components/supplier/EditSupplier";
@@ -144,6 +168,127 @@ export const route = [
         path: "base-units",
         ele: <BaseUnits />,
         permission: Permissions.MANAGE_UNITS,
+    },
+    // HRM
+    {
+        path: "employees",
+        ele: <Employees />,
+        permission: Permissions.MANAGE_EMPLOYEES,
+    },
+    {
+        path: "employees/create",
+        ele: <CreateEmployee />,
+        permission: Permissions.MANAGE_EMPLOYEES,
+    },
+    {
+        path: "employees/edit/:id",
+        ele: <EditEmployee />,
+        permission: Permissions.MANAGE_EMPLOYEES,
+    },
+    {
+        path: "employees/detail/:id",
+        ele: <EmployeeDetail />,
+        permission: Permissions.MANAGE_EMPLOYEES,
+    },
+    {
+        path: "departments",
+        ele: <Departments />,
+        permission: Permissions.MANAGE_DEPARTMENTS,
+    },
+    {
+        path: "designations",
+        ele: <Designations />,
+        permission: Permissions.MANAGE_DEPARTMENTS,
+    },
+    {
+        path: "hr-settings",
+        ele: <HrSettings />,
+        permission: Permissions.MANAGE_HR_SETTINGS,
+    },
+    {
+        path: "attendance",
+        ele: <Attendance />,
+        permission: Permissions.MANAGE_ATTENDANCE,
+    },
+    {
+        path: "my-attendance",
+        ele: <MyAttendance />,
+        permission: Permissions.VIEW_OWN_HR,
+    },
+    {
+        path: "shifts",
+        ele: <Shifts />,
+        permission: Permissions.MANAGE_ATTENDANCE,
+    },
+    {
+        path: "holidays",
+        ele: <Holidays />,
+        permission: Permissions.MANAGE_ATTENDANCE,
+    },
+    {
+        path: "attendance-reports",
+        ele: <AttendanceReports />,
+        permission: Permissions.MANAGE_ATTENDANCE,
+    },
+    {
+        path: "leave-requests",
+        ele: <LeaveRequests />,
+        permission: Permissions.MANAGE_LEAVE,
+    },
+    {
+        path: "my-leave",
+        ele: <MyLeave />,
+        permission: Permissions.VIEW_OWN_HR,
+    },
+    {
+        path: "leave-calendar",
+        ele: <LeaveCalendar />,
+        permission: Permissions.MANAGE_LEAVE,
+    },
+    {
+        path: "leave-types",
+        ele: <LeaveTypes />,
+        permission: Permissions.MANAGE_LEAVE,
+    },
+    {
+        path: "leave-balances",
+        ele: <LeaveBalances />,
+        permission: Permissions.MANAGE_LEAVE,
+    },
+    {
+        path: "payroll-runs",
+        ele: <PayrollRuns />,
+        permission: Permissions.MANAGE_PAYROLL,
+    },
+    {
+        path: "payroll-runs/:id",
+        ele: <PayrollRunDetail />,
+        permission: Permissions.MANAGE_PAYROLL,
+    },
+    {
+        path: "salary-components",
+        ele: <SalaryComponents />,
+        permission: Permissions.MANAGE_PAYROLL,
+    },
+    {
+        path: "employee-loans",
+        ele: <Loans />,
+        permission: Permissions.MANAGE_PAYROLL,
+    },
+    {
+        path: "my-payslips",
+        ele: <MyPayslips />,
+        permission: Permissions.VIEW_OWN_HR,
+    },
+    {
+        path: "hr-dashboard",
+        ele: <HrDashboard />,
+        permission: Permissions.MANAGE_EMPLOYEES,
+    },
+    {
+        path: "payroll-reports",
+        ele: <PayrollReports />,
+        permission: Permissions.MANAGE_PAYROLL,
     },
     {
         path: "suppliers",

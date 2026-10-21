@@ -344,7 +344,18 @@ const AsideMenu = (props) => {
                                                     ?.smsTemplateSubPath ||
                                             location.pathname ===
                                                 mainItems?.subPath
-                                                    ?.smsApiSubPath
+                                                    ?.smsApiSubPath ||
+                                            (mainItems?.name === "hrm" &&
+                                                Object.values(
+                                                    mainItems?.subPath || {}
+                                                ).some(
+                                                    (subPath) =>
+                                                        location.pathname ===
+                                                            subPath ||
+                                                        location.pathname.startsWith(
+                                                            subPath + "/"
+                                                        )
+                                                ))
                                                 ? "pro-active-sub myDIV"
                                                 : "myDIV"
                                         }

@@ -4,6 +4,8 @@ import PosCalculator from "./PosCalculator";
 import { getFormattedMessage } from "../../../shared/sharedMethod";
 import PosRegisterOpenAlertModel from "../../../components/posRegister/PosRegisterOpenAlertModel";
 import { openCustomerDisplay } from "../../shared/customerDisplayChannel";
+import { useDispatch } from "react-redux";
+import { myClockOut } from "../../../store/action/hrm/attendanceActions";
 
 const PosFunctionBar = (props) => {
     const {
@@ -22,6 +24,7 @@ const PosFunctionBar = (props) => {
         openCalculator,
         setOpenCalculator,
     } = props;
+    const dispatch = useDispatch();
     const [showROAlertModel, setShowROAlertModel] = useState(false);
     const [registerMenu, setRegisterMenu] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(
@@ -104,6 +107,11 @@ const PosFunctionBar = (props) => {
         {
             label: getFormattedMessage("register.details.title"),
             onClick: onRegisterDetails,
+        },
+        {
+            // HRM: clock out the employee linked to this login (toast explains if not linked)
+            label: getFormattedMessage("hrm.attendance.clock-out"),
+            onClick: () => dispatch(myClockOut("pos")).catch(() => {}),
         },
         {
             label: getFormattedMessage("globally.close-register.title"),

@@ -1,4 +1,17 @@
 import { combineReducers } from 'redux';
+import {
+    departmentsReducer,
+    allDepartmentsReducer,
+    designationsReducer,
+    allDesignationsReducer,
+    employeesReducer,
+    employeeReducer,
+    employeeAvailableUsersReducer,
+    hrSettingsReducer,
+} from './hrmReducers';
+import { shiftsReducer, allShiftsReducer, holidaysReducer } from './attendanceReducers';
+import { leaveTypesReducer, allLeaveTypesReducer, leaveRequestsReducer } from './leaveReducers';
+import { salaryComponentsReducer, allSalaryComponentsReducer, employeeLoansReducer, payrollRunsReducer } from './payrollReducers';
 import loginReducers from './authReducer';
 import brandsReducers from './brandsReducers';
 import totalRecordReduce from './totalRecordReduce';
@@ -198,5 +211,23 @@ export default combineReducers( {
     baseUnits: baseUnitsReducres,
     base: baseUnitReducer,
     closeRegisterDetails: posCloseRegisterDetailsReducer,
-    registerReportDetails: posRegisterReportDetailsReducer
+    registerReportDetails: posRegisterReportDetailsReducer,
+    departments: departmentsReducer,
+    allDepartments: allDepartmentsReducer,
+    designations: designationsReducer,
+    allDesignations: allDesignationsReducer,
+    employees: employeesReducer,
+    employee: employeeReducer,
+    employeeAvailableUsers: employeeAvailableUsersReducer,
+    hrSettings: hrSettingsReducer,
+    shifts: shiftsReducer,
+    allShifts: allShiftsReducer,
+    holidays: holidaysReducer,
+    leaveTypes: leaveTypesReducer,
+    allLeaveTypes: allLeaveTypesReducer,
+    leaveRequests: leaveRequestsReducer,
+    salaryComponents: salaryComponentsReducer,
+    allSalaryComponents: allSalaryComponentsReducer,
+    employeeLoans: employeeLoansReducer,
+    payrollRuns: payrollRunsReducer,
 } );

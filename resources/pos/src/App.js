@@ -33,6 +33,9 @@ function App() {
     const [languageData, setLanguageData] = useState([]);
 
     const mapPermissionToRoute = (permission) => {
+        // permissions whose landing page isn't /app/<second word>
+        const landing = { view_own_hr: "/app/my-attendance" };
+        if (landing[permission]) return landing[permission];
         const entity = permission.split('_')[1];
         return `/app/${entity}`;
     };

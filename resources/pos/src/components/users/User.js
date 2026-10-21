@@ -12,6 +12,7 @@ import {getFormattedMessage} from '../../shared/sharedMethod';
 import {placeholderText} from '../../shared/sharedMethod';
 import ActionButton from '../../shared/action-buttons/ActionButton';
 import TopProgressBar from "../../shared/components/loaders/TopProgressBar";
+import EmployeeLinkButton from '../hrm/employees/EmployeeLinkButton';
 
 const User = (props) => {
     const {users, fetchUsers, totalRecord, isLoading, allConfigData} = props;
@@ -35,6 +36,7 @@ const User = (props) => {
         confirm_password: user.attributes.confirm_password,
         // role_id: user.attributes.role.map(ro => ro.name),
         role_name: user.attributes.role.map((role)=> role.name),
+        employee_id: user.attributes.employee_id,
         id: user.id
     }));
 
@@ -113,8 +115,12 @@ const User = (props) => {
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
-            cell: row => <ActionButton item={row} goToEditProduct={goToEdit} isEditMode={true}
-                                       onClickDeleteModel={onClickDeleteModel}/>
+            width: '150px',
+            cell: row => <div className='action-btn-group'>
+                <EmployeeLinkButton userId={row.id} employeeId={row.employee_id}/>
+                <ActionButton item={row} goToEditProduct={goToEdit} isEditMode={true}
+                              onClickDeleteModel={onClickDeleteModel}/>
+            </div>
         }
     ];
 

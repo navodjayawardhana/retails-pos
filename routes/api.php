@@ -4,6 +4,26 @@ use App\Http\Controllers\API\AdjustmentAPIController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BaseUnitAPIController;
 use App\Http\Controllers\API\BrandAPIController;
+use App\Http\Controllers\API\DepartmentAPIController;
+use App\Http\Controllers\API\DesignationAPIController;
+use App\Http\Controllers\API\EmployeeAPIController;
+use App\Http\Controllers\API\HrSettingAPIController;
+use App\Http\Controllers\API\ShiftAPIController;
+use App\Http\Controllers\API\HolidayAPIController;
+use App\Http\Controllers\API\AttendanceAPIController;
+use App\Http\Controllers\API\MyAttendanceAPIController;
+use App\Http\Controllers\API\LeaveTypeAPIController;
+use App\Http\Controllers\API\LeaveEntitlementAPIController;
+use App\Http\Controllers\API\LeaveRequestAPIController;
+use App\Http\Controllers\API\MyLeaveAPIController;
+use App\Http\Controllers\API\SalaryComponentAPIController;
+use App\Http\Controllers\API\EmployeeSalaryComponentAPIController;
+use App\Http\Controllers\API\EmployeeLoanAPIController;
+use App\Http\Controllers\API\PayrollRunAPIController;
+use App\Http\Controllers\API\PayslipAPIController;
+use App\Http\Controllers\API\PayrollReportAPIController;
+use App\Http\Controllers\API\HrDashboardAPIController;
+use App\Http\Controllers\API\MyPayslipAPIController;
 use App\Http\Controllers\API\CouponCodeAPIController;
 use App\Http\Controllers\API\CurrencyAPIController;
 use App\Http\Controllers\API\CustomerAPIController;
@@ -108,6 +128,84 @@ Route::middleware('auth:sanctum')->group(function () {
     //    Route::middleware('permission:manage_units')->group(function () {
     Route::resource('units', UnitAPIController::class);
     Route::resource('base-units', BaseUnitAPIController::class);
+
+    // HRM
+    Route::resource('departments', DepartmentAPIController::class);
+    Route::resource('designations', DesignationAPIController::class);
+    Route::get('employee-available-users', [EmployeeAPIController::class, 'availableUsers']);
+    Route::get('employee-next-code', [EmployeeAPIController::class, 'nextCode']);
+    Route::post('employees/{id}', [EmployeeAPIController::class, 'update']);
+    Route::delete('employees/{id}/photo', [EmployeeAPIController::class, 'deletePhoto']);
+    Route::post('employees/{id}/documents', [EmployeeAPIController::class, 'uploadDocument']);
+    Route::delete('employees/{id}/documents/{mediaId}', [EmployeeAPIController::class, 'deleteDocument']);
+    Route::post('employees/{id}/unlink-user', [EmployeeAPIController::class, 'unlinkUser']);
+    Route::resource('employees', EmployeeAPIController::class);
+    Route::get('hr-settings', [HrSettingAPIController::class, 'index']);
+    Route::post('hr-settings', [HrSettingAPIController::class, 'update']);
+    // HRM phase 2: shifts, holidays, attendance
+    Route::get('shift-assignments', [ShiftAPIController::class, 'assignments']);
+    Route::post('shift-assignments', [ShiftAPIController::class, 'assign']);
+    Route::delete('shift-assignments/{id}', [ShiftAPIController::class, 'removeAssignment']);
+    Route::resource('shifts', ShiftAPIController::class);
+    Route::post('holidays/bulk', [HolidayAPIController::class, 'bulkStore']);
+    Route::resource('holidays', HolidayAPIController::class);
+    Route::get('attendance-sheet', [AttendanceAPIController::class, 'sheet']);
+    Route::post('attendances/bulk', [AttendanceAPIController::class, 'bulkStore']);
+    Route::post('attendance-import/preview', [AttendanceAPIController::class, 'importPreview']);
+    Route::post('attendance-import/commit', [AttendanceAPIController::class, 'importCommit']);
+    Route::get('attendance-summary', [AttendanceAPIController::class, 'summary']);
+    Route::get('attendance-reports/daily', [AttendanceAPIController::class, 'dailyReport']);
+    Route::get('attendance-reports/monthly', [AttendanceAPIController::class, 'monthlyReport']);
+    Route::get('attendance-reports/monthly-excel', [AttendanceAPIController::class, 'monthlyExcel']);
+    Route::resource('attendances', AttendanceAPIController::class)->except(['create', 'edit', 'show']);
+    Route::get('my-attendance', [MyAttendanceAPIController::class, 'index']);
+    Route::post('my-attendance/clock-in', [MyAttendanceAPIController::class, 'clockIn']);
+    Route::post('my-attendance/clock-out', [MyAttendanceAPIController::class, 'clockOut']);
+    // HRM phase 3: leave
+    Route::resource('leave-types', LeaveTypeAPIController::class)->except(['create', 'edit']);
+    Route::get('leave-entitlements', [LeaveEntitlementAPIController::class, 'index']);
+    Route::post('leave-entitlements', [LeaveEntitlementAPIController::class, 'update']);
+    Route::post('leave-entitlements/initialise', [LeaveEntitlementAPIController::class, 'initialise']);
+    Route::get('leave-preview', [LeaveRequestAPIController::class, 'preview']);
+    Route::get('leave-calendar', [LeaveRequestAPIController::class, 'calendar']);
+    Route::get('leave-reports/balances', [LeaveRequestAPIController::class, 'balanceReport']);
+    Route::get('leave-reports/balances-excel', [LeaveRequestAPIController::class, 'balanceExcel']);
+    Route::post('leave-requests/{id}/approve', [LeaveRequestAPIController::class, 'approve']);
+    Route::post('leave-requests/{id}/reject', [LeaveRequestAPIController::class, 'reject']);
+    Route::post('leave-requests/{id}/cancel', [LeaveRequestAPIController::class, 'cancel']);
+    Route::resource('leave-requests', LeaveRequestAPIController::class)->only(['index', 'store', 'show', 'destroy']);
+    Route::get('my-leave', [MyLeaveAPIController::class, 'index']);
+    Route::get('my-leave/preview', [MyLeaveAPIController::class, 'preview']);
+    Route::post('my-leave', [MyLeaveAPIController::class, 'store']);
+    Route::post('my-leave/{id}/cancel', [MyLeaveAPIController::class, 'cancel']);
+
+    // HRM phase 5: dashboard
+    Route::get('hr-dashboard', [HrDashboardAPIController::class, 'index']);
+
+    // HRM phase 4: payroll
+    Route::resource('salary-components', SalaryComponentAPIController::class)->except(['create', 'edit']);
+    Route::get('employee-salary-components', [EmployeeSalaryComponentAPIController::class, 'index']);
+    Route::post('employee-salary-components', [EmployeeSalaryComponentAPIController::class, 'store']);
+    Route::delete('employee-salary-components/{id}', [EmployeeSalaryComponentAPIController::class, 'destroy']);
+    Route::post('employee-loans/{id}/settle', [EmployeeLoanAPIController::class, 'settle']);
+    Route::post('employee-loans/{id}/cancel', [EmployeeLoanAPIController::class, 'cancel']);
+    Route::resource('employee-loans', EmployeeLoanAPIController::class)->except(['create', 'edit']);
+    Route::post('payroll-runs/{id}/recalculate', [PayrollRunAPIController::class, 'recalculate']);
+    Route::post('payroll-runs/{id}/approve', [PayrollRunAPIController::class, 'approve']);
+    Route::post('payroll-runs/{id}/pay', [PayrollRunAPIController::class, 'pay']);
+    Route::get('payroll-runs/{id}/pdf', [PayrollRunAPIController::class, 'pdf']);
+    Route::get('payroll-runs/{id}/summary-excel', [PayrollRunAPIController::class, 'summaryExcel']);
+    Route::get('payroll-runs/{id}/bank-excel', [PayrollRunAPIController::class, 'bankExcel']);
+    Route::resource('payroll-runs', PayrollRunAPIController::class)->only(['index', 'store', 'show', 'destroy']);
+    Route::get('payslips/{id}/pdf', [PayslipAPIController::class, 'pdf']);
+    Route::post('payslips/{id}/adjustments', [PayslipAPIController::class, 'addAdjustment']);
+    Route::delete('payslips/{id}/adjustments/{itemId}', [PayslipAPIController::class, 'removeAdjustment']);
+    Route::resource('payslips', PayslipAPIController::class)->only(['index', 'show']);
+    Route::get('payroll-reports/epf', [PayrollReportAPIController::class, 'epf']);
+    Route::get('payroll-reports/epf-excel', [PayrollReportAPIController::class, 'epfExcel']);
+    Route::get('my-payslips', [MyPayslipAPIController::class, 'index']);
+    Route::get('my-payslips/{id}', [MyPayslipAPIController::class, 'show']);
+    Route::get('my-payslips/{id}/pdf', [MyPayslipAPIController::class, 'pdf']);
     //    });
     Route::get('units', [UnitAPIController::class, 'index']);
 
