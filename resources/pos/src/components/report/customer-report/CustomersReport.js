@@ -16,6 +16,7 @@ import {
 } from "../../../store/action/customerReportAction";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const SuppliersReport = (props) => {
     const {
@@ -162,6 +163,7 @@ const SuppliersReport = (props) => {
         <MasterLayout>
             <TopProgressBar />
             <TabTitle title={placeholderText("customer.report.title")} />
+            <ReportOverview type="customers" />
             <div className="pt-md-7">
                 <ReactDataTable
                     columns={columns}

@@ -16,6 +16,7 @@ import QuotationsTeb from './customer-tab/QuotationsTeb';
 import SaleReturnTabs from './customer-tab/SaleReturnTabs';
 import SalePayment from './customer-tab/SalePayment';
 import { fetchCustomerReportWidget } from '../../../store/action/customerReportWidgetAction';
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const CustomerReportDetails = (props) => {
     const [key, setKey] = useState('sale');
@@ -55,6 +56,7 @@ const CustomerReportDetails = (props) => {
                         currency={currencySymbol}
                         value={customerReportWidgetData?.totalSalesDue ? parseFloat(customerReportWidgetData?.totalSalesDue).toFixed(2) : '0.00'}/>
             </Row>
+            <ReportOverview type="customer" params={{ id }} showKpis={false} />
             <Tabs defaultActiveKey='sale' id='uncontrolled-tab-example' onSelect={(k) => setKey(k)}
                   className='mt-7 mb-5'>
                 <Tab eventKey='sale' title={getFormattedMessage('sale.title')}

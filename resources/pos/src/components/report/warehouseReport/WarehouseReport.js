@@ -23,6 +23,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const WarehouseReport = (props) => {
     const {
@@ -166,6 +167,7 @@ const WarehouseReport = (props) => {
                     }
                 />
             </Row>
+            <ReportOverview type="warehouse" params={{ warehouse_id: warehouseValue.value }} />
             <Tabs
                 defaultActiveKey="sales"
                 id="uncontrolled-tab-example"

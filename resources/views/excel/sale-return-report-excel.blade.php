@@ -14,12 +14,12 @@
     <thead>
     <tr style="background-color: dodgerblue;">
         <th style="width: 200%">{{ __('messages.pdf.reference') }}</th>
-        <th style="width: 200%">{{ __('messages.pdf.supplier') }}</th>
+        <th style="width: 200%">{{ __('messages.pdf.customer') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.warehouse') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.total') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.paid') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.due') }}</th>
-        <th style="width: 300%">{{ __('messages.pdf.payment_status') }}</th>
+        <th style="width: 300%">{{ __('messages.pdf.status') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -30,11 +30,13 @@
             <td>{{$saleReturn->warehouse->name}}</td>
             <td style="float: left">{{number_format($saleReturn->grand_total,2)}}</td>
             <td>{{number_format((float)$saleReturn->paid_amount, 2)}}</td>
-            <td>{{number_format((float)$saleReturn->due_amount, 2)}}</td>
+            <td>{{number_format(max((float)$saleReturn->grand_total - (float)$saleReturn->paid_amount, 0), 2)}}</td>
             @if($saleReturn->status == \App\Models\SaleReturn::RECEIVED)
                 <td>Received</td>
-            @elseif($saleReturn->status == \App\Models\Sale::PENDING)
+            @elseif($saleReturn->status == \App\Models\SaleReturn::PENDING)
                 <td>pending</td>
+            @else
+                <td></td>
             @endif
         </tr>
     @endforeach

@@ -8,6 +8,7 @@ import {
 import { stockDetailsPurchaseReturnAction } from "../../../../store/action/stockDetailsPurchaseRetrunAction";
 import { fetchFrontSetting } from "../../../../store/action/frontSettingAction";
 import { stockDetailsPurchaseReturnExcel } from "../../../../store/action/stockDetailsPurchaseReturnExcel";
+import { useReportPdf } from "../../../../store/action/reportPdfAction";
 import { fetchSupplierPurchaseReturnReport } from "../../../../store/action/supplierPurchaseReportAction";
 import apiConfig from "../../../../config/apiConfig";
 import { apiBaseURL, toastType } from "../../../../constants";
@@ -135,7 +136,12 @@ const PurchaseReturnTab = (props) => {
         fetchSupplierPurchaseReturnReport(id, filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () => `purchases-return-report-pdf?supplier_id=${id}`,
+        "purchase_return_pdf_url"
+    );
+
+    const onExcelClick =() => {
         apiConfig
             .get(
                 apiBaseURL.SUPPLIER_PURCHASE_RETURN_EXCEL + "?supplier_id=" + id
@@ -166,6 +172,8 @@ const PurchaseReturnTab = (props) => {
             totalRows={totalRecord}
             isEXCEL
             onExcelClick={onExcelClick}
+            isReportPdf
+            onReportPdfClick={onReportPdfClick}
         />
     );
 };

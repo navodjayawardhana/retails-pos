@@ -11,6 +11,7 @@ use App\Models\Employee;
 use App\Models\HrSetting;
 use App\Services\Hrm\AttendanceImportService;
 use App\Services\Hrm\AttendanceService;
+use App\Services\ReportPdfService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -264,6 +265,81 @@ class AttendanceAPIController extends AppBaseController
         Excel::store(new AttendanceMonthlyExport($sheet), $path);
 
         return $this->sendResponse(['attendance_excel_url' => Storage::url($path)], 'Attendance export created successfully');
+    }
+
+    /**
+     * GET attendance-reports/daily-pdf?date=&warehouse_id=&department_id= — returns a download URL.
+     */
+    public function dailyPdf(Request $request, ReportPdfService $pdf): JsonResponse
+    {
+        $date = $request->filled('date') ? Carbon::parse($request->get('date'))->toDateString() : HrSetting::today();
+        $filters = $request->only(['warehouse_id', 'department_id']);
+        $rows = $this->attendance->dailyReport($date, $filters);
+        $counts = array_count_values(array_filter(array_column($rows, 'status')));
+
+        $lines = [];
+        $sum = ['late' => 0, 'worked' => 0, 'ot' => 0];
+        foreach ($rows as $r) {
+            $lines[] = [
+                $r['employee_code'], $r['employee_name'], $r['department_name'], $r['shift_name'] ?: '—',
+                $r['clock_in'] ?: '—', $r['clock_out'] ?: '—', $r['status'] ? ucwords(str_replace('_', ' ', $r['status'])) : '—',
+                $r['late_minutes'] ?: '', $r['worked_minutes'] ? round($r['worked_minutes'] / 60, 2) : '',
+                $r['ot_minutes'] ? round($r['ot_minutes'] / 60, 2) : '',
+            ];
+            $sum['late'] += $r['late_minutes'];
+            $sum['worked'] += $r['worked_minutes'];
+            $sum['ot'] += $r['ot_minutes'];
+        }
+        $summary = [];
+        foreach (['present', 'late', 'half_day', 'absent', 'leave', 'holiday', 'weekend'] as $status) {
+            if (! empty($counts[$status])) {
+                $summary[ucwords(str_replace('_', ' ', $status))] = $counts[$status];
+            }
+        }
+
+        $url = $pdf->table([
+            'title' => 'DAILY ATTENDANCE',
+            'subtitle' => Carbon::parse($date)->format('l, d F Y'),
+            'meta' => $this->hrFilterMeta($filters) + ['Employees' => count($rows)],
+            'summary' => $summary,
+            'columns' => [
+                ['label' => 'Code'], ['label' => 'Employee'], ['label' => 'Department'], ['label' => 'Shift'],
+                ['label' => 'In'], ['label' => 'Out'], ['label' => 'Status'], ['label' => 'Late min', 'num' => true],
+                ['label' => 'Worked h', 'num' => true], ['label' => 'OT h', 'num' => true],
+            ],
+            'rows' => $lines,
+            'foot' => ['Total', count($rows).' employees', '', '', '', '', '', $sum['late'], round($sum['worked'] / 60, 2), round($sum['ot'] / 60, 2)],
+            'empty' => 'No active employees for this filter',
+        ], 'attendance-daily-'.$date.'.pdf');
+
+        return $this->sendResponse(['attendance_pdf_url' => $url], 'Attendance PDF created successfully');
+    }
+
+    /**
+     * GET attendance-reports/monthly-pdf?month=&warehouse_id=&department_id= — returns a download URL.
+     */
+    public function monthlyPdf(Request $request, ReportPdfService $pdf): JsonResponse
+    {
+        [$year, $month] = $this->monthParts($request->get('month'));
+        $filters = $request->only(['warehouse_id', 'department_id']);
+        $sheet = $this->attendance->monthlySheet($year, $month, $filters);
+        $meta = $this->hrFilterMeta($filters) + ['Employees' => count($sheet['rows'])];
+
+        $url = $pdf->render('pdf.reports.attendance-monthly', compact('sheet', 'meta'),
+            'attendance-'.sprintf('%04d-%02d', $year, $month).'.pdf');
+
+        return $this->sendResponse(['attendance_pdf_url' => $url], 'Attendance PDF created successfully');
+    }
+
+    private function hrFilterMeta(array $filters): array
+    {
+        $branch = ! empty($filters['warehouse_id']) ? optional(\App\Models\Warehouse::find($filters['warehouse_id']))->name : null;
+        $department = ! empty($filters['department_id']) ? optional(\App\Models\Department::find($filters['department_id']))->name : null;
+
+        return [
+            'Branch' => $branch ?: 'All branches',
+            'Department' => $department ?: 'All departments',
+        ];
     }
 
     // ---------- helpers shared with MyAttendanceAPIController ----------

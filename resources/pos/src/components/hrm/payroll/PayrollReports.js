@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Select from "react-select";
 import DataTable from "react-data-table-component";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiFileText } from "react-icons/fi";
 import MasterLayout from "../../MasterLayout";
 import TabTitle from "../../../shared/tab-title/TabTitle";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
 import EmptyComponent from "../../empty-component/EmptyComponent";
 import { getFormattedMessage, placeholderText } from "../../../shared/sharedMethod";
-import { fetchEpfReport, exportEpfReport } from "../../../store/action/hrm/payrollActions";
+import { fetchEpfReport, exportEpfReport, exportEpfReportPdf } from "../../../store/action/hrm/payrollActions";
 import { fetchAllWarehouses } from "../../../store/action/warehouseAction";
 import { portalStyles, previousMonth, toOptions, useMoney } from "./payrollShared";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 // EPF / ETF contribution report for a month (approved + paid runs; drafts optional).
-const PayrollReports = ({ warehouses, fetchEpfReport, exportEpfReport, fetchAllWarehouses }) => {
+const PayrollReports = ({ warehouses, fetchEpfReport, exportEpfReport, exportEpfReportPdf, fetchAllWarehouses }) => {
     const money = useMoney();
     const [month, setMonth] = useState(previousMonth());
     const [warehouse, setWarehouse] = useState(null);
@@ -70,7 +71,12 @@ const PayrollReports = ({ warehouses, fetchEpfReport, exportEpfReport, fetchAllW
                     onClick={() => exportEpfReport(params)}>
                     <FiDownload /> {getFormattedMessage("hrm.payroll.export-excel")}
                 </button>
+                <button type="button" className="btn btn-outline-secondary" disabled={!report || !report.rows.length}
+                    onClick={() => exportEpfReportPdf(params)}>
+                    <FiFileText /> {getFormattedMessage("pdf.btn.label")}
+                </button>
             </div>
+            <ReportOverview type="payroll" params={{ month, warehouse_id: warehouse?.value }} />
 
             {report && report.rows.length > 0 && (
                 <div className="hrm-payroll-totals">
@@ -109,4 +115,4 @@ const PayrollReports = ({ warehouses, fetchEpfReport, exportEpfReport, fetchAllW
 
 const mapStateToProps = (state) => ({ warehouses: state.warehouses });
 
-export default connect(mapStateToProps, { fetchEpfReport, exportEpfReport, fetchAllWarehouses })(PayrollReports);
+export default connect(mapStateToProps, { fetchEpfReport, exportEpfReport, exportEpfReportPdf, fetchAllWarehouses })(PayrollReports);

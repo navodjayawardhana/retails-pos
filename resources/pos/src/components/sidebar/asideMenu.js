@@ -379,6 +379,9 @@ const AsideMenu = (props) => {
                                             location.pathname ===
                                                 mainItems?.subPath
                                                     ?.smsApiSubPath ||
+                                            location.pathname ===
+                                                mainItems?.subPath
+                                                    ?.smsLogsSubPath ||
                                             (mainItems?.name === "hrm" &&
                                                 Object.values(
                                                     mainItems?.subPath || {}

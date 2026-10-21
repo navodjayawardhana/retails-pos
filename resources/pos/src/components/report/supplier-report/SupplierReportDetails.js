@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import { fetchSupplierReportWidget } from "../../../store/action/supplierReportWidgetAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const SupplierReportDetails = () => {
     const [ key, setKey ] = useState( 'purchase' );
@@ -53,6 +54,7 @@ const SupplierReportDetails = () => {
                     currency={currencySymbol}
                     value={supplierReportWidgetData?.purchases_returns_total_amount ? parseFloat( supplierReportWidgetData?.purchases_returns_total_amount ).toFixed( 2 ) : '0.00'} />
             </Row>
+            <ReportOverview type="supplier" params={{ id }} showKpis={false} />
             <Tabs defaultActiveKey='purchase' id='uncontrolled-tab-example' onSelect={( k ) => setKey( k )}
                 className='mt-7 mb-5'>
                 <Tab eventKey='purchase' title={getFormattedMessage( 'purchase.title' )}

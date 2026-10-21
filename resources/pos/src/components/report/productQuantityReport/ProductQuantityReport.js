@@ -9,6 +9,7 @@ import {fetchAllWarehouses} from '../../../store/action/warehouseAction';
 import {fetchFrontSetting} from '../../../store/action/frontSettingAction';
 import {productQuantityReportAction} from '../../../store/action/paymentQuantityReport';
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const StockReport = (props) => {
     const {
@@ -113,6 +114,7 @@ const StockReport = (props) => {
                                  title={getFormattedMessage('warehouse.title')} errors={''} isRequired
                                  placeholder={placeholderText('purchase.select.warehouse.placeholder.label')}/>}
                 </div>
+                <ReportOverview type="stock-alerts" params={{ warehouse_id: warehouseValue.value }} />
             <div className='pt-md-7'>
                 <ReactDataTable subHeader={false} items={itemsValue} columns={columns}  onChange={onChange} isLoading={isLoading}
                                 totalRows={totalRecord} warehouseValue={warehouseValue} />

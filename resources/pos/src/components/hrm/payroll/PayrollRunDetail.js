@@ -22,6 +22,8 @@ import {
     downloadRunPayslips,
     downloadRunSummary,
     downloadRunBankSheet,
+    downloadRunSummaryPdf,
+    downloadRunBankSheetPdf,
 } from "../../../store/action/hrm/payrollActions";
 import PayslipModal from "./PayslipModal";
 import { num, PayrollStatusBadge, useMoney } from "./payrollShared";
@@ -45,7 +47,7 @@ const ConfirmModal = ({ show, title, body, confirmLabel, onHide, onConfirm, busy
 const PayrollRunDetail = (props) => {
     const {
         fetchPayrollRun, recalculatePayrollRun, approvePayrollRun, payPayrollRun, deletePayrollRun,
-        downloadRunPayslips, downloadRunSummary, downloadRunBankSheet,
+        downloadRunPayslips, downloadRunSummary, downloadRunBankSheet, downloadRunSummaryPdf, downloadRunBankSheetPdf,
     } = props;
     const { id } = useParams();
     const navigate = useNavigate();
@@ -188,8 +190,14 @@ const PayrollRunDetail = (props) => {
                         <button type="button" className="btn btn-outline-secondary" onClick={() => downloadRunSummary(run.id)}>
                             <FiDownload /> {getFormattedMessage("hrm.payroll.summary-excel")}
                         </button>
+                        <button type="button" className="btn btn-outline-secondary" onClick={() => downloadRunSummaryPdf(run.id)}>
+                            <FiFileText /> {getFormattedMessage("hrm.payroll.summary-pdf")}
+                        </button>
                         <button type="button" className="btn btn-outline-secondary" onClick={() => downloadRunBankSheet(run.id)}>
                             <FiDownload /> {getFormattedMessage("hrm.payroll.bank-excel")}
+                        </button>
+                        <button type="button" className="btn btn-outline-secondary" onClick={() => downloadRunBankSheetPdf(run.id)}>
+                            <FiFileText /> {getFormattedMessage("hrm.payroll.bank-pdf")}
                         </button>
                     </div>
 
@@ -278,5 +286,5 @@ const PayrollRunDetail = (props) => {
 
 export default connect(null, {
     fetchPayrollRun, recalculatePayrollRun, approvePayrollRun, payPayrollRun, deletePayrollRun,
-    downloadRunPayslips, downloadRunSummary, downloadRunBankSheet,
+    downloadRunPayslips, downloadRunSummary, downloadRunBankSheet, downloadRunSummaryPdf, downloadRunBankSheetPdf,
 })(PayrollRunDetail);

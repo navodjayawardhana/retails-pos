@@ -9,6 +9,7 @@ import {
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import { fetchExpenses } from "../../../store/action/expenseAction";
 import { expenseExcelAction } from "../../../store/action/expenseExcelAction";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 
 const ExpensesTab = (props) => {
     const {
@@ -114,7 +115,12 @@ const ExpensesTab = (props) => {
         fetchExpenses(filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () => `expense-report-pdf?warehouse_id=${warehouseValue.value}`,
+        "expense_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -128,6 +134,8 @@ const ExpensesTab = (props) => {
             warehouseValue={warehouseValue}
             totalRows={totalRecord}
             onExcelClick={onExcelClick}
+            isReportPdf
+            onReportPdfClick={onReportPdfClick}
         />
     );
 };

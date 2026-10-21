@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiFileText } from "react-icons/fi";
 import MasterLayout from "../../MasterLayout";
 import TabTitle from "../../../shared/tab-title/TabTitle";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
@@ -12,8 +12,10 @@ import {
     fetchDailyAttendanceReport,
     fetchMonthlyAttendanceReport,
     exportMonthlyAttendance,
+    exportAttendancePdf,
 } from "../../../store/action/hrm/attendanceActions";
 import { AttendanceStatusBadge, currentMonthString, formatMinutes, todayString } from "./attendanceShared";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const filterStyles = {
     container: (base) => ({ ...base, minWidth: 190 }),
@@ -23,7 +25,7 @@ const filterStyles = {
 const CODE_CLASS = { P: "p", L: "l", HD: "hd", A: "a", LV: "lv", H: "h", W: "w", "-": "u" };
 
 const AttendanceReports = (props) => {
-    const { warehouses, allDepartments, fetchAllWarehouses, fetchAllDepartments, fetchDailyAttendanceReport, fetchMonthlyAttendanceReport, exportMonthlyAttendance } = props;
+    const { warehouses, allDepartments, fetchAllWarehouses, fetchAllDepartments, fetchDailyAttendanceReport, fetchMonthlyAttendanceReport, exportMonthlyAttendance, exportAttendancePdf } = props;
     const [tab, setTab] = useState("daily");
     const [date, setDate] = useState(todayString());
     const [month, setMonth] = useState(currentMonthString());
@@ -75,15 +77,20 @@ const AttendanceReports = (props) => {
                     value={branch} placeholder={placeholderText("hrm.branch.all")} onChange={setBranch} />
                 <Select isClearable options={toOptions(allDepartments)} styles={filterStyles} menuPortalTarget={document.body}
                     value={department} placeholder={placeholderText("hrm.department.all")} onChange={setDepartment} />
-                {tab === "monthly" && (
-                    <div className="hrm-filter-bar__actions">
+                <div className="hrm-filter-bar__actions">
+                    {tab === "monthly" && (
                         <button type="button" className="btn btn-outline-secondary table-toolbar__btn"
                             onClick={() => exportMonthlyAttendance({ month, ...filters() }).catch(() => {})}>
                             <FiDownload /> {getFormattedMessage("excel.btn.label")}
                         </button>
-                    </div>
-                )}
+                    )}
+                    <button type="button" className="btn btn-outline-secondary table-toolbar__btn"
+                        onClick={() => exportAttendancePdf(tab, tab === "daily" ? { date, ...filters() } : { month, ...filters() }).catch(() => {})}>
+                        <FiFileText /> {getFormattedMessage("pdf.btn.label")}
+                    </button>
+                </div>
             </div>
+            <ReportOverview type="attendance" params={{ month: tab === "daily" ? (date || "").slice(0, 7) : month, warehouse_id: branch ? branch.value : undefined, department_id: department ? department.value : undefined }} />
 
             <div className="card">
                 <div className="card-body">
@@ -205,4 +212,5 @@ export default connect(mapStateToProps, {
     fetchDailyAttendanceReport,
     fetchMonthlyAttendanceReport,
     exportMonthlyAttendance,
+    exportAttendancePdf,
 })(AttendanceReports);

@@ -10,7 +10,7 @@ class TopSellingProductReportExport implements FromView
 {
     public function view(): \Illuminate\Contracts\View\View
     {
-        if (request()->get('start_date') && request()->get('start_date') && request()->get('start_date') != 'null' && request()->get('start_date') != 'null') {
+        if (request()->get('start_date') && request()->get('end_date') && request()->get('start_date') != 'null' && request()->get('end_date') != 'null') {
             $startDate = Carbon::parse(request()->get('start_date'))->toDateTimeString();
             $endDate = Carbon::parse(request()->get('end_date'))->toDateTimeString();
             $topSelling = Product::leftJoin('sale_items', 'products.id', '=', 'sale_items.product_id')

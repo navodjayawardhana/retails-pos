@@ -208,6 +208,15 @@ export const exportMonthlyAttendance = (params) => (dispatch) =>
         })
         .catch(fail(dispatch));
 
+// type: "daily" | "monthly"
+export const exportAttendancePdf = (type, params) => (dispatch) =>
+    apiConfig
+        .get(`${apiBaseURL.ATTENDANCE_REPORTS}/${type}-pdf${query(params)}`)
+        .then((response) => {
+            window.open(response.data.data.attendance_pdf_url, "_blank");
+        })
+        .catch(fail(dispatch));
+
 // ---------- Self service / POS ----------
 export const fetchMyAttendance = (month) => (dispatch) =>
     apiConfig

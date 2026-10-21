@@ -425,3 +425,72 @@
         min-width: 110px !important;
     }
 }
+
+// ---------- SMS gateway settings / logs ----------
+.sms-api-page {
+    .card-header {
+        min-height: auto;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .form-action-bar {
+        margin-top: 0;
+    }
+}
+
+.sms-toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid $gray-200;
+    border-radius: 8px;
+    background: $gray-100;
+
+    .form-check-input {
+        width: 2.5rem;
+        height: 1.35rem;
+        margin: 0;
+    }
+}
+
+.sms-key-saved {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $success;
+}
+
+.sms-result {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 1rem;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.925rem;
+
+    svg {
+        flex-shrink: 0;
+        margin-top: 3px;
+    }
+
+    &--ok {
+        background: rgba($success, 0.1);
+        color: darken($success, 12%);
+    }
+
+    &--error {
+        background: rgba($danger, 0.1);
+        color: darken($danger, 8%);
+    }
+}
+
+.sms-log-message {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+}

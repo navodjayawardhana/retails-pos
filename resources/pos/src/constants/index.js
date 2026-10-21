@@ -42,6 +42,9 @@ export const apiBaseURL = {
     MY_PAYSLIPS: "/my-payslips",
     SUPPLIERS: "/suppliers",
     SMS_SETTING: "/sms-settings",
+    SMS_SETTING_TEST: "/sms-settings/test",
+    SMS_SETTING_BALANCE: "/sms-settings/balance",
+    SMS_LOGS: "/sms-logs",
     SUPPLIERS_REPORT: "/supplier-report",
     CUSTOMERS_REPORT: "/customer-report",
     CUSTOMERS: "/customers",
@@ -212,6 +215,7 @@ export const supplierActionType = {
 export const smsApiActionType = {
     FETCH_SMS_SETTINGS: "FETCH_SMS_SETTINGS",
     EDIT_SMS_SETTING: "EDIT_SMS_SETTING",
+    FETCH_SMS_LOGS: "FETCH_SMS_LOGS",
 };
 
 export const hrmActionType = {

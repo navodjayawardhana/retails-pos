@@ -28,7 +28,6 @@
             <td>{{number_format((float)$product['price'], 2)}}</td>
             <td>{{$product['total_quantity']}}</td>
             <td>{{number_format((float)$product['grand_total'], 2)}}</td>
-            <td></td>
         </tr>
     @endforeach
     </tbody>

@@ -198,6 +198,8 @@ const download = (url, key) => (dispatch) =>
 export const downloadRunPayslips = (id) => download(`${apiBaseURL.PAYROLL_RUNS}/${id}/pdf`, "payslip_pdf_url");
 export const downloadRunSummary = (id) => download(`${apiBaseURL.PAYROLL_RUNS}/${id}/summary-excel`, "payroll_excel_url");
 export const downloadRunBankSheet = (id) => download(`${apiBaseURL.PAYROLL_RUNS}/${id}/bank-excel`, "payroll_excel_url");
+export const downloadRunSummaryPdf = (id) => download(`${apiBaseURL.PAYROLL_RUNS}/${id}/summary-pdf`, "payroll_pdf_url");
+export const downloadRunBankSheetPdf = (id) => download(`${apiBaseURL.PAYROLL_RUNS}/${id}/bank-pdf`, "payroll_pdf_url");
 
 // ---------- Payslips ----------
 export const fetchPayslip = (id, isSelf = false) => (dispatch) =>
@@ -242,6 +244,8 @@ export const fetchEpfReport = (params) => (dispatch) =>
 
 export const exportEpfReport = (params) =>
     download(`${apiBaseURL.PAYROLL_REPORTS}/epf-excel${query(params)}`, "payroll_excel_url");
+export const exportEpfReportPdf = (params) =>
+    download(`${apiBaseURL.PAYROLL_REPORTS}/epf-pdf${query(params)}`, "payroll_pdf_url");
 
 // ---------- Self service ----------
 export const fetchMyPayslips = () => (dispatch) =>

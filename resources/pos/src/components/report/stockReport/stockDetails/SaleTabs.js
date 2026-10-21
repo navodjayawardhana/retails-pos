@@ -9,6 +9,7 @@ import {
 import { stockDetailsSaleTabAction } from "../../../../store/action/stockDetailsSaleTabAction";
 import { fetchFrontSetting } from "../../../../store/action/frontSettingAction";
 import { stockDetailsSaleExcel } from "../../../../store/action/stockDetailsSaleExcel";
+import { useReportPdf } from "../../../../store/action/reportPdfAction";
 
 const SaleTabs = (props) => {
     const {
@@ -146,7 +147,12 @@ const SaleTabs = (props) => {
         stockDetailsSaleTabAction(id, filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () => `get-product-sale-report-pdf?product_id=${id}`,
+        "product_sale_report_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -160,6 +166,8 @@ const SaleTabs = (props) => {
             totalRows={totalRecord}
             isEXCEL
             onExcelClick={onExcelClick}
+            isReportPdf
+            onReportPdfClick={onReportPdfClick}
         />
     );
 };

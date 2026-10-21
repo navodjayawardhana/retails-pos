@@ -11,7 +11,9 @@ import ReactDataTable from "../../../shared/table/ReactDataTable";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import { fetchSales } from "../../../store/action/salesAction";
 import { totalSaleReportExcel } from "../../../store/action/totalSaleReportExcel";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const SaleReport = (props) => {
     const {
@@ -179,7 +181,15 @@ const SaleReport = (props) => {
         fetchSales(filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () =>
+            `total-sale-report-pdf?start_date=${
+                dates.start_date ? dates.start_date : null
+            }&end_date=${dates.end_date ? dates.end_date : null}`,
+        "total_sale_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -187,6 +197,7 @@ const SaleReport = (props) => {
         <MasterLayout>
             <TopProgressBar />
             <TabTitle title={placeholderText("sale.reports.title")} />
+            <ReportOverview type="sales" params={{ start_date: dates && dates.start_date, end_date: dates && dates.end_date }} />
             <ReactDataTable
                 columns={columns}
                 items={itemsValue}
@@ -199,6 +210,8 @@ const SaleReport = (props) => {
                 isStatus
                 isPaymentStatus
                 onExcelClick={onExcelClick}
+                isReportPdf
+                onReportPdfClick={onReportPdfClick}
             />
         </MasterLayout>
     );

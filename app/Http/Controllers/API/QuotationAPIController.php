@@ -137,14 +137,14 @@ class QuotationAPIController extends AppBaseController
             Storage::delete('pdf/Quotation-'.$quotation->reference_code.'.pdf');
         }
         $companyLogo = getLogoUrl();
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.quotation-pdf', compact('quotation', 'companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
         Storage::disk(config('app.media_disc'))->put('pdf/Quotation-'.$quotation->reference_code.'.pdf',
-            $pdf->output());
+            pdfWithPageNumbers($pdf)->output());
         $data['quotation_pdf_url'] = Storage::url('pdf/Quotation-'.$quotation->reference_code.'.pdf');
 
         return $this->sendResponse($data, 'Quotation pdf retrieved Successfully');

@@ -182,14 +182,14 @@ class SaleReturnAPIController extends AppBaseController
         }
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.sale-return-pdf', compact('saleReturn', 'companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
         Storage::disk(config('app.media_disc'))->put('pdf/sale_return-'.$saleReturn->reference_code.'.pdf',
-            $pdf->output());
+            pdfWithPageNumbers($pdf)->output());
         $data['sale_return_pdf_url'] = Storage::url('pdf/sale_return-'.$saleReturn->reference_code.'.pdf');
 
         return $this->sendResponse($data, 'Sale return pdf retrieved Successfully');

@@ -13,7 +13,9 @@ import { fetchAllWarehouses } from "../../../store/action/warehouseAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import { stockReportAction } from "../../../store/action/stockReportAction";
 import { totalStockReportExcel } from "../../../store/action/totalStockReportExcel";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const StockReport = (props) => {
     const {
@@ -100,7 +102,17 @@ const StockReport = (props) => {
         setWarehouseValue(obj);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () =>
+            `stock-report-pdf?warehouse_id=${
+                warehouseValue.value
+                    ? warehouseValue.value
+                    : frontSetting?.value?.default_warehouse
+            }`,
+        "stock_report_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -220,6 +232,7 @@ const StockReport = (props) => {
                     />
                 ) : null}
             </div>
+            <ReportOverview type="stock" params={{ warehouse_id: warehouseValue.value ? warehouseValue.value : frontSetting?.value?.default_warehouse }} />
             <div className="pt-md-7">
                 <ReactDataTable
                     columns={columns}
@@ -229,6 +242,8 @@ const StockReport = (props) => {
                     totalRows={totalRecord}
                     isEXCEL
                     onExcelClick={onExcelClick}
+                    isReportPdf
+                    onReportPdfClick={onReportPdfClick}
                 />
             </div>
         </MasterLayout>

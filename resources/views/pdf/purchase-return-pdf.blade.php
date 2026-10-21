@@ -1,168 +1,67 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "//www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>{{ __('messages.purchase_return_pdf') }}</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon.ico') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Fonts -->
-    <!-- General CSS Files -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-    <style>
-        * {
-            font-family: DejaVu Sans, Arial, "Helvetica", Arial, "Liberation Sans", sans-serif;
-        }
+@php
+    $money = fn ($v) => currencyAlignment(number_format((float) $v, 2));
+    $qty = fn ($v) => rtrim(rtrim(number_format((float) $v, 2), '0'), '.');
+    $supplier = $purchaseReturn->supplier;
+    $date = \Carbon\Carbon::parse($purchaseReturn->date ?? $purchaseReturn->created_at);
+    $status = [
+        \App\Models\PurchaseReturn::COMPLETED => 'Completed',
+        \App\Models\PurchaseReturn::PENDING => 'Pending',
+    ][$purchaseReturn->status] ?? null;
+    $paymentStatus = [
+        \App\Models\PurchaseReturn::PAID => 'Paid',
+        \App\Models\PurchaseReturn::UNPAID => 'Unpaid',
+    ][$purchaseReturn->payment_status] ?? null;
+    $paymentType = [1 => 'Cash', 2 => 'Cheque', 3 => 'Bank transfer', 4 => 'Other'][$purchaseReturn->payment_type] ?? null;
 
-        @if(getLoginUserLanguage() !='ar')
-            .fw-bold {
-            font-weight: 500;
-            color: #333;
-        }
-
-        @else
-        .fw-bold {
-            /*font-weight: 500;*/
-            color: #333;
-        }
-
-        @endif
-
-        @if(getLoginUserLanguage() =='vi')
-            .vi-bold-text {
-                font-size: 14px;
-                font-weight: bolder;
-                color: #333;
-            }
-
-            .vi-light-text {
-                font-size: 16px;
-            }
-        @endif
-
-        .fw-light {
-            font-weight: 500;
-            color: grey;
-        }
-    </style>
-
-</head>
-<body>
-
-<table width="100%">
-    <tr>
-        <td>
-            <img src="{{$companyLogo}}" alt="Company Logo" width="80px">
-        </td>
-        <td align="center" style="vertical-align: bottom">
-            <h2 style="color: dodgerblue;">{{ $purchaseReturn->reference_code }}</h2>
-        </td>
-        <td width="30%" style="line-height: 5px;">
-            <h4 class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Date' : __('messages.pdf.date') }}: <span
-                        class="fw-light vi-light-text">{{ \Carbon\Carbon::parse($purchaseReturn->created_at)->format('Y-m-d') }}</span>
-            </h4>
-            <h4 class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Number' : __('messages.pdf.number') }}: <span
-                        class="fw-light vi-light-text">{{ $purchaseReturn->reference_code }}</span></h4>
-            <h4 class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Status' : __('messages.pdf.status')}}: <span class="fw-light vi-light-text">@if($purchaseReturn->status == \App\Models\Purchase::RECEIVED)
-                        Received @elseif($purchaseReturn->status == \App\Models\Purchase::PENDING) Pending @else
-                        Ordered @endif</span></h4>
-        </td>
-    </tr>
-</table>
-<table width="100%" style="margin-top: 40px;">
-    <tr align="top" style="vertical-align: top;">
-        <td style="width: 50%;">
-            <table width="95%" cellpadding="0">
-                <tr style="background-color: dodgerblue;">
-                    <td style="color: #fff;padding: 10px;font-size: 18px;">{{ getLoginUserLanguage() == 'cn' ? 'Supplier Info' : __('messages.pdf.supplier_info')}}</td>
-                </tr>
-                <tr style="background-color: #f5f3f3;">
-                    <td style="padding: 10px;">
-                        <p class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Name' : __('messages.pdf.name') }}: <span
-                                    class="fw-light vi-light-text">{{ isset($purchaseReturn->supplier->name) ? $purchaseReturn->supplier->name : 'N/A' }}</span>
-                        </p>
-                        <p class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Phone' : __('messages.pdf.phone') }}: <span
-                                    class="fw-light vi-light-text">{{ isset($purchaseReturn->supplier->phone) ? $purchaseReturn->supplier->phone : 'N/A' }}</span>
-                        </p>
-                        <p class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Address' : __('messages.pdf.address') }}: <span class="fw-light vi-light-text">
-                                {{ isset($purchaseReturn->supplier->address) ? $purchaseReturn->supplier->address : '' }}
-                                {{ isset($purchaseReturn->supplier->city) ? $purchaseReturn->supplier->city : '' }}
-                                {{ isset($purchaseReturn->supplier->country) ? $purchaseReturn->supplier->country : '' }}
-                            </span></p>
-                        <p class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Email' : __('messages.pdf.email') }}: <span
-                                    class="fw-light vi-light-text">{{ isset($purchaseReturn->supplier->email) ? $purchaseReturn->supplier->email : ''}}</span>
-                        </p>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        <td style="width: 50%;">
-            <table width="95%" align="right">
-                <tr style="background-color: dodgerblue;">
-                    <td style="color: #fff;padding: 10px;font-size: 18px;">{{ getLoginUserLanguage() == 'cn' ? 'Company Info' : __('messages.pdf.company_info') }}</td>
-                </tr>
-                <tr style="background-color: #f5f3f3;">
-                    <td style="padding: 10px;">
-                        <h3 style="color: #333;">{{ getSettingValue('company_name') }}</h3>
-                        <p class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Address' : __('messages.pdf.address') }}: <span
-                                    class="fw-light vi-light-text">{{ getSettingValue('address') }}</span></p>
-                        <p class="fw-bold vi-bold-text">{{ __('messages.pdf.phone') }}: <span
-                                    class="fw-light vi-light-text">{{ getLoginUserLanguage() == 'cn' ? 'Phone' : __('messages.pdf.phone') }}</span></p>
-                        <p class="fw-bold vi-bold-text">{{ getLoginUserLanguage() == 'cn' ? 'Email' : __('messages.pdf.email') }}: <span
-                                    class="fw-light vi-light-text">{{ getSettingValue('email') }}</span></p>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<table width="100%" cellspacing="0" cellpadding="10" style="margin-top: 40px;">
-    <thead>
-    <tr style="background-color: dodgerblue;">
-        <th style="color: #fff;">{{ getLoginUserLanguage() == 'cn' ? 'Product' : __('messages.pdf.product') }}</th>
-        <th style="color: #fff;">{{ getLoginUserLanguage() == 'cn' ? 'UNIT COST' : __('messages.pdf.unit_cost')}}</th>
-        <th style="color: #fff;">{{ getLoginUserLanguage() == 'cn' ? 'QUANTITY' : __('messages.pdf.quantity') }}</th>
-        <th style="color: #fff;">{{ getLoginUserLanguage() == 'cn' ? 'DISCOUNT' : __('messages.heading_discount') }}</th>
-        <th style="color: #fff;">{{ getLoginUserLanguage() == 'cn' ? 'TAX' : __('messages.pdf.tax') }}</th>
-        <th style="color: #fff;">{{ getLoginUserLanguage() == 'cn' ? 'TOTAL' : __('messages.heading_total') }}</th>
-    </tr>
-    </thead>
-    <tbody style="background-color: #f5f3f3;">
-    @foreach($purchaseReturn->purchaseReturnItems  as $purchaseReturnItem)
-        <tr align="center">
-            <td>{{$purchaseReturnItem->product->name}}</td>
-            <td>{{currencyAlignment(number_format((float)$purchaseReturnItem->net_unit_cost, 2))}}</td>
-            <td>{{currencyAlignment($purchaseReturnItem->quantity)}}</td>
-            <td>{{currencyAlignment(number_format((float)$purchaseReturnItem->discount_amount, 2))}}</td>
-            <td>{{currencyAlignment(number_format((float)$purchaseReturnItem->tax_amount, 2))}}</td>
-            <td>{{currencyAlignment(number_format((float)$purchaseReturnItem->sub_total, 2))}}</td>
-        </tr>
-    @endforeach
-    </tbody>
-</table>
-<table width="60%" align="right" cellspacing="0" cellpadding="10" style="margin-top: 40px;">
-    <tbody style="background-color: #f5f3f3;">
-    <tr>
-        <td>{{ getLoginUserLanguage() == 'cn' ? 'Order Tax' : __('messages.pdf.order_tax') }}</td>
-        <td>{{currencyAlignment(number_format((float)$purchaseReturn->tax_amount, 2))}}</td>
-    </tr>
-    <tr>
-        <td>{{ getLoginUserLanguage() == 'cn' ? 'Discount' : __('messages.pdf.discount') }}</td>
-        <td>{{currencyAlignment(number_format((float)$purchaseReturn->discount, 2))}}</td>
-    </tr>
-    <tr>
-        <td>{{ getLoginUserLanguage() == 'cn' ? 'Shipping' : __('messages.pdf.shipping') }}</td>
-        <td>{{currencyAlignment(number_format((float)$purchaseReturn->shipping, 2))}}</td>
-    </tr>
-    <tr>
-        <td>{{ getLoginUserLanguage() == 'cn' ? 'Total' : __('messages.pdf.total') }}</td>
-        <td>{{currencyAlignment(number_format((float)$purchaseReturn->grand_total, 2))}}</td>
-    </tr>
-
-    <tr>
-        <td>{{ getLoginUserLanguage() == 'cn' ? 'Paid Amount' : __('messages.pdf.paid_amount') }}</td>
-        <td>{{currencyAlignment(number_format((float)$purchaseReturn->received_amount, 2))}}</td>
-    </tr>
-    </tbody>
-</table>
-</body>
-</html>
+    $doc = [
+        'title' => 'DEBIT NOTE',
+        'subtitle' => 'Purchase return',
+        'stamp' => $status ? strtoupper($status) : null,
+        'meta' => [
+            'Debit Note No' => $purchaseReturn->reference_code,
+            'Date' => $date->format('d M Y'),
+            'Status' => $status,
+        ],
+        'left' => [
+            'title' => 'Supplier',
+            'name' => optional($supplier)->name,
+            'lines' => [
+                optional($supplier)->phone ? 'Tel: '.$supplier->phone : null,
+                trim(implode(', ', array_filter([optional($supplier)->address, optional($supplier)->city, optional($supplier)->country]))),
+                optional($supplier)->email,
+            ],
+        ],
+        'right' => [
+            'title' => 'Return Details',
+            'rows' => [
+                'Returned from' => optional($purchaseReturn->warehouse)->name,
+                'Payment status' => $paymentStatus,
+                'Settlement method' => $paymentType,
+            ],
+        ],
+        'items' => $purchaseReturn->purchaseReturnItems->map(fn ($item) => [
+            'name' => optional($item->product)->name,
+            'code' => optional($item->product)->code,
+            'qty' => $qty($item->quantity),
+            'unit' => $money($item->product_cost ?: $item->net_unit_cost),
+            'discount' => $money($item->discount_amount),
+            'tax' => $money($item->tax_amount),
+            'total' => $money($item->sub_total),
+        ])->values()->all(),
+        'itemsTotalQty' => $qty($purchaseReturn->purchaseReturnItems->sum('quantity')),
+        'totals' => [
+            'Subtotal' => $money($purchaseReturn->purchaseReturnItems->sum('sub_total')),
+            'Discount' => '- '.$money($purchaseReturn->discount),
+            'Tax ('.$qty($purchaseReturn->tax_rate).'%)' => $money($purchaseReturn->tax_amount),
+            'Shipping' => $money($purchaseReturn->shipping),
+        ],
+        'grand' => ['TOTAL DEBIT', $money($purchaseReturn->grand_total)],
+        'after' => [
+            'Amount received' => $money($purchaseReturn->received_amount),
+        ],
+        'words' => amountInWords($purchaseReturn->grand_total),
+        'notes' => $purchaseReturn->notes,
+        'signatures' => ['Prepared by', 'Approved by', 'Supplier acknowledgement'],
+    ];
+@endphp
+@include('pdf.partials.trade-document', ['doc' => $doc])

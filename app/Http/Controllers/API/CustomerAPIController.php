@@ -109,13 +109,13 @@ class CustomerAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.best-customers-pdf', compact('topCustomers', 'companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/best-customers.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/best-customers.pdf', pdfWithPageNumbers($pdf)->output());
         $data['best_customers_pdf_url'] = Storage::url('pdf/best-customers.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');
@@ -147,13 +147,13 @@ class CustomerAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.customers-report-pdf', compact('customer', 'companyLogo', 'salesData'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/customers-report-'.$customer->id.'.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/customers-report-'.$customer->id.'.pdf', pdfWithPageNumbers($pdf)->output());
         $data['customers_report_pdf_url'] = Storage::url('pdf/customers-report-'.$customer->id.'.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');
@@ -171,13 +171,13 @@ class CustomerAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.customer-sales-pdf', compact('customer', 'companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/customer-sales-'.$customer->id.'.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/customer-sales-'.$customer->id.'.pdf', pdfWithPageNumbers($pdf)->output());
         $data['customers_sales_pdf_url'] = Storage::url('pdf/customer-sales-'.$customer->id.'.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');
@@ -195,13 +195,13 @@ class CustomerAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.customer-quotations-pdf', compact('customer', 'companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/customer-quotations-'.$customer->id.'.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/customer-quotations-'.$customer->id.'.pdf', pdfWithPageNumbers($pdf)->output());
         $data['customers_quotations_pdf_url'] = Storage::url('pdf/customer-quotations-'.$customer->id.'.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');
@@ -219,13 +219,13 @@ class CustomerAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.customer-returns-pdf', compact('customer', 'companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/customer-returns-'.$customer->id.'.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/customer-returns-'.$customer->id.'.pdf', pdfWithPageNumbers($pdf)->output());
         $data['customers_returns_pdf_url'] = Storage::url('pdf/customer-returns-'.$customer->id.'.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');
@@ -251,13 +251,15 @@ class CustomerAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
-        $pdf = PDF::loadView('pdf.customer-payments-pdf', compact('payments', 'companyLogo'))->setOptions([
+        $customer = Customer::find($id);
+
+        $pdf = PDF::loadView('pdf.customer-payments-pdf', compact('payments', 'companyLogo', 'customer'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/customer-payments-'.$id.'.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/customer-payments-'.$id.'.pdf', pdfWithPageNumbers($pdf)->output());
         $data['customers_payments_pdf_url'] = Storage::url('pdf/customer-payments-'.$id.'.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');

@@ -8,6 +8,7 @@ import {
 import { fetchSalesReturn } from "../../../store/action/salesReturnAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import { saleReturnExcelAction } from "../../../store/action/salesReturnExcelAction";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 
 const SaleReturnTab = (props) => {
     const {
@@ -150,7 +151,12 @@ const SaleReturnTab = (props) => {
         fetchSalesReturn(filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () => `sales-return-report-pdf?warehouse_id=${warehouseValue.value}`,
+        "sale_return_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -164,6 +170,8 @@ const SaleReturnTab = (props) => {
             warehouseValue={warehouseValue}
             totalRows={totalRecord}
             onExcelClick={onExcelClick}
+            isReportPdf
+            onReportPdfClick={onReportPdfClick}
             isStatus
             isShowFilterField
         />

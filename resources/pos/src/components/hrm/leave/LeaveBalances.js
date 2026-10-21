@@ -3,15 +3,16 @@ import { connect } from "react-redux";
 import { Modal } from "react-bootstrap-v5";
 import Select from "react-select";
 import { Link } from "react-router-dom";
-import { FiDownload, FiRefreshCw } from "react-icons/fi";
+import { FiDownload, FiFileText, FiRefreshCw } from "react-icons/fi";
 import MasterLayout from "../../MasterLayout";
 import TabTitle from "../../../shared/tab-title/TabTitle";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
 import { getFormattedMessage, placeholderText } from "../../../shared/sharedMethod";
-import { fetchLeaveBalanceReport, exportLeaveBalances, initialiseLeaveYear } from "../../../store/action/hrm/leaveActions";
+import { fetchLeaveBalanceReport, exportLeaveBalances, exportLeaveBalancesPdf, initialiseLeaveYear } from "../../../store/action/hrm/leaveActions";
 import { fetchAllDepartments } from "../../../store/action/hrm/hrmActions";
 import { fetchAllWarehouses } from "../../../store/action/warehouseAction";
 import { formatDays, LeaveTypeTag, yearOptions } from "./leaveShared";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const filterStyles = {
     container: (base) => ({ ...base, minWidth: 160 }),
@@ -49,7 +50,7 @@ const InitialiseModal = ({ show, year, onHide, onConfirm }) => {
 };
 
 const LeaveBalances = (props) => {
-    const { warehouses, allDepartments, fetchAllWarehouses, fetchAllDepartments, fetchLeaveBalanceReport, exportLeaveBalances, initialiseLeaveYear } = props;
+    const { warehouses, allDepartments, fetchAllWarehouses, fetchAllDepartments, fetchLeaveBalanceReport, exportLeaveBalances, exportLeaveBalancesPdf, initialiseLeaveYear } = props;
     const years = yearOptions();
     const [year, setYear] = useState(years[1]);
     const [branch, setBranch] = useState(null);
@@ -95,8 +96,13 @@ const LeaveBalances = (props) => {
                         onClick={() => exportLeaveBalances(params()).catch(() => {})}>
                         <FiDownload /> {getFormattedMessage("excel.btn.label")}
                     </button>
+                    <button type="button" className="btn btn-outline-secondary table-toolbar__btn"
+                        onClick={() => exportLeaveBalancesPdf(params()).catch(() => {})}>
+                        <FiFileText /> {getFormattedMessage("pdf.btn.label")}
+                    </button>
                 </div>
             </div>
+            <ReportOverview type="leave" params={{ year: year && year.value, warehouse_id: branch?.value, department_id: department?.value }} />
             <div className="card">
                 <div className="card-body">
                     {loading && !report ? (
@@ -188,5 +194,6 @@ export default connect(mapStateToProps, {
     fetchAllDepartments,
     fetchLeaveBalanceReport,
     exportLeaveBalances,
+    exportLeaveBalancesPdf,
     initialiseLeaveYear,
 })(LeaveBalances);

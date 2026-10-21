@@ -183,6 +183,14 @@ export const exportLeaveBalances = (params) => (dispatch) =>
         })
         .catch(fail(dispatch));
 
+export const exportLeaveBalancesPdf = (params) => (dispatch) =>
+    apiConfig
+        .get(`${apiBaseURL.LEAVE_REPORTS}/balances-pdf${query(params)}`)
+        .then((response) => {
+            window.open(response.data.data.leave_pdf_url, "_blank");
+        })
+        .catch(fail(dispatch));
+
 // ---------- Self service ----------
 export const fetchMyLeave = (year) => (dispatch) =>
     apiConfig

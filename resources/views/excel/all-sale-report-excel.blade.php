@@ -34,17 +34,20 @@
                 <td>Pending</td>
             @elseif($sale->status == \App\Models\Sale::ORDERED)
                 <td>Ordered</td>
+            @else
+                <td></td>
             @endif
             <td style="float: left">{{number_format($sale->grand_total,2)}}</td>
             <td>{{number_format((float)$sale->payments->sum('amount'), 2)}}</td>
-            @if($sale->status == \App\Models\Sale::PAID)
+            @if($sale->payment_status == \App\Models\Sale::PAID)
                 <td>paid</td>
-            @elseif($sale->status == \App\Models\Sale::UNPAID)
+            @elseif($sale->payment_status == \App\Models\Sale::UNPAID)
                 <td>unpaid</td>
-            @elseif($sale->status == \App\Models\Sale::PARTIAL_PAID)
+            @elseif($sale->payment_status == \App\Models\Sale::PARTIAL_PAID)
                 <td>partial</td>
+            @else
+                <td></td>
             @endif
-            <td></td>
         </tr>
     @endforeach
     </tbody>

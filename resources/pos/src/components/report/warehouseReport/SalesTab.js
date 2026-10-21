@@ -9,6 +9,7 @@ import {
 import { fetchSales } from "../../../store/action/salesAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import { saleExcelAction } from "../../../store/action/salesExcelAction";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 
 const SalesTab = (props) => {
     const {
@@ -194,6 +195,11 @@ const SalesTab = (props) => {
         setIsWarehouseValue(true);
     };
 
+    const onReportPdfClick = useReportPdf(
+        () => `sales-report-pdf?warehouse_id=${warehouseValue.value}`,
+        "sales_pdf_url"
+    );
+
     return (
         <div className="warehouse_sale_report_table">
             <ReactDataTable
@@ -205,6 +211,8 @@ const SalesTab = (props) => {
                 totalRows={totalRecord}
                 isEXCEL
                 onExcelClick={onExcelClick}
+                isReportPdf
+                onReportPdfClick={onReportPdfClick}
                 isPaymentStatus
                 isStatus
                 isShowFilterField

@@ -2735,6 +2735,215 @@ div .rdt_Pagination div:first-of-type svg {
   min-width: 110px !important;
 }
 
+.sms-api-page .card-header {
+  min-height: auto;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+.sms-api-page .form-action-bar {
+  margin-top: 0;
+}
+
+.sms-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid #E9ECEF;
+  border-radius: 8px;
+  background: #F8F9FA;
+}
+.sms-toggle .form-check-input {
+  width: 2.5rem;
+  height: 1.35rem;
+  margin: 0;
+}
+
+.sms-key-saved {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0AC074;
+}
+
+.sms-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 1rem;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.925rem;
+}
+.sms-result svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.sms-result--ok {
+  background: rgba(10, 192, 116, 0.1);
+  color: #078651;
+}
+.sms-result--error {
+  background: rgba(246, 41, 71, 0.1);
+  color: #ec0a2b;
+}
+
+.sms-log-message {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+}
+
+.report-overview {
+  margin-bottom: 1.5rem;
+  transition: opacity 0.15s ease;
+}
+.report-overview--loading {
+  opacity: 0.6;
+}
+.report-overview__period {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6C757D;
+  margin-bottom: 10px;
+}
+.report-overview__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.report-overview__charts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (max-width: 1199px) {
+  .report-overview__charts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .report-overview__charts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.report-kpi {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #E9ECEF;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  min-height: 104px;
+}
+.report-kpi__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #6C757D;
+}
+.report-kpi__value {
+  margin-top: 6px;
+  font-size: 21px;
+  font-weight: 700;
+  color: #212529;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.report-kpi__change {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+.report-kpi__change--good {
+  color: #0AC074;
+  background-color: #CEF2E3;
+}
+.report-kpi__change--bad {
+  color: #F62947;
+  background-color: #FDD4DA;
+}
+.report-kpi__change--flat {
+  color: #6C757D;
+  background-color: #F8F9FA;
+}
+.report-kpi__vs {
+  font-weight: 400;
+  color: #6C757D;
+  margin-right: 4px;
+}
+.report-kpi--skeleton {
+  background: linear-gradient(-90deg, #F8F9FA 25%, #E9ECEF 37%, #F8F9FA 63%);
+  background-size: 400% 100%;
+  animation: report-shimmer 1.4s ease infinite;
+}
+
+.report-chart {
+  background-color: #FFFFFF;
+  border: 1px solid #E9ECEF;
+  border-radius: 12px;
+  padding: 16px 16px 8px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  min-width: 0;
+}
+.report-chart--span-2 {
+  grid-column: span 2;
+}
+.report-chart--span-3 {
+  grid-column: 1/-1;
+}
+@media (max-width: 767px) {
+  .report-chart--span-2, .report-chart--span-3 {
+    grid-column: auto;
+  }
+}
+.report-chart__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 6px;
+}
+.report-chart__empty {
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #6C757D;
+  font-size: 13px;
+}
+.report-chart__empty svg {
+  font-size: 28px;
+  opacity: 0.6;
+}
+.report-chart--skeleton {
+  height: 320px;
+  background: linear-gradient(-90deg, #F8F9FA 25%, #E9ECEF 37%, #F8F9FA 63%);
+  background-size: 400% 100%;
+  animation: report-shimmer 1.4s ease infinite;
+}
+
+@keyframes report-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
 .contents {
   background: #eef0f8 !important;
 }

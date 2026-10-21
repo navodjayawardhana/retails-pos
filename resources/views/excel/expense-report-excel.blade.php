@@ -26,8 +26,8 @@
             <td>{{$expense->date->todatestring()}}</td>
             <td>{{$expense->reference_code}}</td>
             <td style="float: left">{{number_format($expense->amount,2)}}</td>
-            <td>{{$expense->warehouse->name}}</td>
-            <td>{{$expense->expenseCategory->name}}</td>
+            <td>{{optional($expense->expenseCategory)->name}}</td>
+            <td>{{optional($expense->warehouse)->name}}</td>
         </tr>
     @endforeach
     </tbody>

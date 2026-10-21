@@ -14,7 +14,9 @@ import { fetchAllWarehouses } from "../../../store/action/warehouseAction";
 import { fetchAllSuppliers } from "../../../store/action/supplierAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import { totalPurchaseReportExcel } from "../../../store/action/totalPurchaseReportExcel";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const PurchaseReport = (props) => {
     const {
@@ -195,7 +197,15 @@ const PurchaseReport = (props) => {
         fetchPurchases(filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () =>
+            `total-purchase-report-pdf?start_date=${
+                dates.start_date ? dates.start_date : null
+            }&end_date=${dates.end_date ? dates.end_date : null}`,
+        "total_purchase_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -203,6 +213,7 @@ const PurchaseReport = (props) => {
         <MasterLayout>
             <TopProgressBar />
             <TabTitle title={placeholderText("purchase.reports.title")} />
+            <ReportOverview type="purchases" params={{ start_date: dates && dates.start_date, end_date: dates && dates.end_date }} />
             <ReactDataTable
                 columns={columns}
                 items={itemsValue}
@@ -214,6 +225,8 @@ const PurchaseReport = (props) => {
                 isShowFilterField
                 isStatus
                 onExcelClick={onExcelClick}
+                isReportPdf
+                onReportPdfClick={onReportPdfClick}
             />
         </MasterLayout>
     );

@@ -94,7 +94,7 @@ import quotationReducer from './quotationReducer';
 import quotationDetailsReducer from './quotationDetailsReducer';
 import updateBrandReducer from './updateBrandReducer';
 import defaultCountryReducer from './defaultCountryReducer';
-import smsApiReducer from './smsApiReducer';
+import smsApiReducer, { smsLogsReducer } from './smsApiReducer';
 import mailSettingsReducer from "./mailSettingsReducer";
 import bestCustomeReportReducer from './bestCustomeReportReducer';
 import smsTemplatesReducer from './smsTemplatesReducer';
@@ -204,6 +204,7 @@ export default combineReducers( {
     transferDetails: transferDetailsReducer,
     defaultCountry: defaultCountryReducer,
     smsApiData: smsApiReducer,
+    smsLogs: smsLogsReducer,
     holdListData: HoldListReducer,
     editholdListData: EditHoldList,
     languages: languageReducer,

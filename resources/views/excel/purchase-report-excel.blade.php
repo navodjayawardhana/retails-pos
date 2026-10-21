@@ -35,6 +35,8 @@
                 <td>pending</td>
             @elseif($purchase->status == \App\Models\Purchase::ORDERED)
                 <td>ordered</td>
+            @else
+                <td></td>
             @endif
         </tr>
     @endforeach

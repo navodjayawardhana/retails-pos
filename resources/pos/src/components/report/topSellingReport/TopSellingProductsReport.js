@@ -11,7 +11,9 @@ import ReactDataTable from "../../../shared/table/ReactDataTable";
 import TabTitle from "../../../shared/tab-title/TabTitle";
 import MasterLayout from "../../MasterLayout";
 import { fetchTopSellingExcel } from "../../../store/action/topSellingExcelAction";
+import { useReportPdf } from "../../../store/action/reportPdfAction";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const TopSellingProductsReport = (props) => {
     const {
@@ -115,13 +117,22 @@ const TopSellingProductsReport = (props) => {
         fetchTopSellingReport(dates);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () =>
+            `top-selling-product-report-pdf?start_date=${
+                dates.start_date ? dates.start_date : null
+            }&end_date=${dates.end_date ? dates.end_date : null}`,
+        "top_selling_product_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
     return (
         <MasterLayout>
             <TopProgressBar />
+            <ReportOverview type="top-selling" params={{ start_date: dates && dates.start_date, end_date: dates && dates.end_date }} />
             <TabTitle
                 title={placeholderText("top-selling-product.reports.title")}
             />
@@ -135,6 +146,8 @@ const TopSellingProductsReport = (props) => {
                 totalRows={totalRecord}
                 isEXCEL
                 onExcelClick={onExcelClick}
+                isReportPdf
+                onReportPdfClick={onReportPdfClick}
             />
         </MasterLayout>
     );

@@ -11,7 +11,7 @@ use App\Models\Quotation;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\SalesPayment;
-use App\Models\SmsSetting;
+use App\Services\Sms\SmsService;
 use App\Models\SmsTemplate;
 use Carbon\Carbon;
 use Exception;
@@ -107,7 +107,6 @@ class SaleRepository extends BaseRepository
             }
 
             $mailTemplate = MailTemplate::where('type', MailTemplate::MAIL_TYPE_SALE)->first();
-            $smsTemplate = SmsTemplate::where('type', SmsTemplate::SMS_TYPE_SALE)->first();
 
             $subject = 'Customer sale';
 
@@ -144,39 +143,11 @@ class SaleRepository extends BaseRepository
                     ->send(new MailSender('emails.mail-sender', $subject, $data));
             }
 
-            if (! empty($smsTemplate) && $smsTemplate->status == SmsTemplate::ACTIVE) {
-                $message = str_replace($search, $replace, $smsTemplate->content);
-
-                $client = new \GuzzleHttp\Client();
-
-                $url = SmsSetting::where('key', 'url')->value('value');
-                // $token = SmsSetting::where('key', 'token')->value('value');
-                //            $url = "https://xrjv8e.api.infobip.com/sms/2/text/advanced";
-
-                $data = SmsSetting::where('key', 'payload')->value('value');
-
-                $data = preg_replace('/\s/', '', $data);
-
-                $data = json_decode($data, true);
-
-                $toKey = SmsSetting::where('key', 'mobile_key')->value('value');
-                $number = $customer->phone;
-
-                $messageKey = SmsSetting::where('key', 'message_key')->value('value');
-
-                $data = replaceArrayValue($data, $toKey, $number);
-                $data = replaceArrayValue($data, $messageKey, $message);
-
-                $response = $client->post($url, [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Accept' => 'application/json',
-                    ],
-                    'form_params' => [$data],
-                ]);
-            }
-
             DB::commit();
+
+            // after commit: a slow or failing SMS gateway must never undo the sale
+            app(SmsService::class)->sendTemplate(SmsTemplate::SMS_TYPE_SALE, $customer->phone,
+                array_combine($search, $replace), ['type' => 'sale', 'id' => $sale->id]);
 
             return $sale;
         } catch (Exception $e) {

@@ -14,6 +14,7 @@ import {
     bestCustomerReportAction,
     bestCustomerPdfAction,
 } from "../../../store/action/bestCustomerReport";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const BestCustomerReport = (props) => {
     const {
@@ -105,6 +106,7 @@ const BestCustomerReport = (props) => {
         <MasterLayout>
             <TopProgressBar />
             <TabTitle title={placeholderText("best-customer.report.title")} />
+            <ReportOverview type="best-customers" />
             <div className="pt-md-7">
                 <ReactDataTable
                     subHeader={true}

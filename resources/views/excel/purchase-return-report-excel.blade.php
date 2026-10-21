@@ -14,7 +14,7 @@
     <thead>
     <tr style="background-color: dodgerblue;">
         <th style="width: 200%">{{ __('messages.pdf.reference') }}</th>
-        <th style="width: 200%">{{ __('messages.pdf.client') }}</th>
+        <th style="width: 200%">{{ __('messages.pdf.supplier') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.warehouse') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.total') }}</th>
         <th style="width: 200%">{{ __('messages.pdf.paid') }}</th>
@@ -30,11 +30,13 @@
             <td>{{$purchaseReturn->warehouse->name}}</td>
             <td style="float: left">{{number_format($purchaseReturn->grand_total,2)}}</td>
             <td>{{number_format((float)$purchaseReturn->paid_amount, 2)}}</td>
-            <td>{{number_format((float)$purchaseReturn->due_amount, 2)}}</td>
+            <td>{{number_format(max((float)$purchaseReturn->grand_total - (float)$purchaseReturn->paid_amount, 0), 2)}}</td>
             @if($purchaseReturn->payment_status == \App\Models\PurchaseReturn::PAID)
                 <td>paid</td>
             @elseif($purchaseReturn->payment_status == \App\Models\PurchaseReturn::UNPAID)
                 <td>unpaid</td>
+            @else
+                <td></td>
             @endif
         </tr>
     @endforeach

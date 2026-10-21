@@ -149,7 +149,7 @@ class PurchaseReturnAPIController extends AppBaseController
         }
 
         $companyLogo = getLogoUrl();
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.purchase-return-pdf', compact('purchaseReturn','companyLogo'))->setOptions([
             'tempDir' => public_path(),
@@ -157,7 +157,7 @@ class PurchaseReturnAPIController extends AppBaseController
         ]);
 
         Storage::disk(config('app.media_disc'))->put('pdf/purchase_return-'.$purchaseReturn->reference_code.'.pdf',
-            $pdf->output());
+            pdfWithPageNumbers($pdf)->output());
         $data['purchase_return_pdf_url'] = Storage::url('pdf/purchase_return-'.$purchaseReturn->reference_code.'.pdf');
 
         return $this->sendResponse($data, 'purchase return pdf retrieved Successfully');

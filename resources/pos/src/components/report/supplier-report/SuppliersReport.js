@@ -13,6 +13,7 @@ import { fetchAllWarehouses } from "../../../store/action/warehouseAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
 import TopProgressBar from "../../../shared/components/loaders/TopProgressBar";
 import { fetchSuppliersReport } from "../../../store/action/suppliersReportAction";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const SuppliersReport = (props) => {
     const {
@@ -138,6 +139,7 @@ const SuppliersReport = (props) => {
         <MasterLayout>
             <TopProgressBar />
             <TabTitle title={placeholderText("supplier.report.title")} />
+            <ReportOverview type="suppliers" />
             {/*<div className='mx-auto mb-md-5 col-12 col-md-4'>*/}
             {/*    {newArray &&*/}
             {/*    <ReactSelect data={newArray} onChange={onWarehouseChange} defaultValue={newArray[0] ? {*/}

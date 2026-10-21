@@ -149,4 +149,32 @@ class PayrollRunAPIController extends AppBaseController
 
         return $this->sendResponse(['payroll_excel_url' => $url], 'Bank transfer sheet created successfully');
     }
+
+    public function summaryPdf($id, PayrollDocumentService $documents): JsonResponse
+    {
+        $run = PayrollRun::findOrFail($id);
+        $url = $documents->tablePdf($documents->runSummaryTable($run), [9, 10, 11, 12, 13, 14, 15], [6, 7, 8],
+            'PAYROLL SUMMARY', $run->month->format('F Y'), $this->runMeta($run), 'payroll-summary-'.$run->id.'.pdf');
+
+        return $this->sendResponse(['payroll_pdf_url' => $url], 'Payroll summary PDF created successfully');
+    }
+
+    public function bankPdf($id, PayrollDocumentService $documents): JsonResponse
+    {
+        $run = PayrollRun::findOrFail($id);
+        $url = $documents->tablePdf($documents->bankSheetTable($run), [5], [],
+            'BANK TRANSFER SHEET', $run->month->format('F Y'), $this->runMeta($run), 'payroll-bank-'.$run->id.'.pdf');
+
+        return $this->sendResponse(['payroll_pdf_url' => $url], 'Bank transfer PDF created successfully');
+    }
+
+    private function runMeta(PayrollRun $run): array
+    {
+        return [
+            'Run' => '#'.$run->id,
+            'Period' => $run->month->format('M Y'),
+            'Status' => ucfirst($run->status),
+            'Employees' => $run->payslips()->count(),
+        ];
+    }
 }

@@ -682,6 +682,7 @@ export default [
             emailTemplateSubPath: "/app/email-templates",
             smsTemplateSubPath: "/app/sms-templates",
             smsApiSubPath: "/app/sms-api",
+            smsLogsSubPath: "/app/sms-logs",
         },
         subMenu: [
             {
@@ -705,6 +706,14 @@ export default [
                 name: "sms-api",
                 fontIcon: <FontAwesomeIcon icon={faCube} />,
                 to: "/app/sms-api",
+                class: "d-flex",
+                permission: Permissions.MANAGE_SMS_API,
+            },
+            {
+                title: "sms-logs.title",
+                name: "sms-logs",
+                fontIcon: <FontAwesomeIcon icon={faListCheck} />,
+                to: "/app/sms-logs",
                 class: "d-flex",
                 permission: Permissions.MANAGE_SMS_API,
             },

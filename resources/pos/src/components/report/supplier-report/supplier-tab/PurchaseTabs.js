@@ -8,6 +8,7 @@ import {
 import { stockDetailsPurchaseAction } from "../../../../store/action/stockDetilsPurchaseAction";
 import { fetchFrontSetting } from "../../../../store/action/frontSettingAction";
 import { stockDetailsPurchaseExcel } from "../../../../store/action/stockDetailsPurchaseExcel";
+import { useReportPdf } from "../../../../store/action/reportPdfAction";
 import { fetchSupplierPurchaseReport } from "../../../../store/action/supplierPurchaseReportAction";
 import apiConfig from "../../../../config/apiConfig";
 import { apiBaseURL, toastType } from "../../../../constants";
@@ -135,7 +136,12 @@ const PurchaseTab = (props) => {
         fetchSupplierPurchaseReport(id, filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () => `purchases-report-pdf?supplier_id=${id}`,
+        "purchase_pdf_url"
+    );
+
+    const onExcelClick =() => {
         apiConfig
             .get(
                 apiBaseURL.SUPPLIER_PURCHASE_REPORT_EXCEL + "?supplier_id=" + id
@@ -163,6 +169,8 @@ const PurchaseTab = (props) => {
             totalRows={totalRecord}
             isEXCEL
             onExcelClick={onExcelClick}
+            isReportPdf
+            onReportPdfClick={onReportPdfClick}
         />
     );
 };

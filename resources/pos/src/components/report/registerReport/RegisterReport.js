@@ -14,6 +14,7 @@ import { getAllRegisterReportDetailsAction } from "../../../store/action/pos/pos
 import moment from "moment";
 import ReactSelect from "../../../shared/select/reactSelect";
 import { fetchUsers } from "../../../store/action/userAction";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const RegisterReport = () => {
     const dispatch = useDispatch();
@@ -289,6 +290,7 @@ const RegisterReport = () => {
         <MasterLayout>
             <TopProgressBar />
             <TabTitle title={placeholderText("register.report.title")} />
+            <ReportOverview type="register" params={{ start_date: dates && dates.start_date, end_date: dates && dates.end_date }} />
             <div className="mx-auto col-12 col-md-4">
                 <ReactSelect
                     multiLanguageOption={usersData?.usersDataOptions}

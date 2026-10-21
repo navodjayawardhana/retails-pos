@@ -27,6 +27,7 @@ import { dateFormat } from "../../../constants";
 import moment from "moment";
 import { fetchProfitAndLossReports } from "../../../store/action/profitAndLossReportAction";
 import { fetchFrontSetting } from "../../../store/action/frontSettingAction";
+import ReportOverview from "../../../shared/report-overview/ReportOverview";
 
 const ProfitLossReport = (props) => {
     const {
@@ -370,6 +371,7 @@ const ProfitLossReport = (props) => {
                     </Row>
                 </Col>
             </Row>
+            <ReportOverview type="profit-loss" params={{ start_date: selectDate ? selectDate.start_date : startMonth, end_date: selectDate ? selectDate.end_date : today }} showKpis={false} />
         </MasterLayout>
     );
 };

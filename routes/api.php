@@ -42,6 +42,8 @@ use App\Http\Controllers\API\PurchaseAPIController;
 use App\Http\Controllers\API\PurchaseReturnAPIController;
 use App\Http\Controllers\API\QuotationAPIController;
 use App\Http\Controllers\API\ReportAPIController;
+use App\Http\Controllers\API\ReportPdfAPIController;
+use App\Http\Controllers\API\ReportSummaryAPIController;
 use App\Http\Controllers\API\RoleAPIController;
 use App\Http\Controllers\API\SaleAPIController;
 use App\Http\Controllers\API\SaleReturnAPIController;
@@ -157,6 +159,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('attendance-reports/daily', [AttendanceAPIController::class, 'dailyReport']);
     Route::get('attendance-reports/monthly', [AttendanceAPIController::class, 'monthlyReport']);
     Route::get('attendance-reports/monthly-excel', [AttendanceAPIController::class, 'monthlyExcel']);
+    Route::get('attendance-reports/daily-pdf', [AttendanceAPIController::class, 'dailyPdf']);
+    Route::get('attendance-reports/monthly-pdf', [AttendanceAPIController::class, 'monthlyPdf']);
     Route::resource('attendances', AttendanceAPIController::class)->except(['create', 'edit', 'show']);
     Route::get('my-attendance', [MyAttendanceAPIController::class, 'index']);
     Route::post('my-attendance/clock-in', [MyAttendanceAPIController::class, 'clockIn']);
@@ -170,6 +174,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('leave-calendar', [LeaveRequestAPIController::class, 'calendar']);
     Route::get('leave-reports/balances', [LeaveRequestAPIController::class, 'balanceReport']);
     Route::get('leave-reports/balances-excel', [LeaveRequestAPIController::class, 'balanceExcel']);
+    Route::get('leave-reports/balances-pdf', [LeaveRequestAPIController::class, 'balancePdf']);
     Route::post('leave-requests/{id}/approve', [LeaveRequestAPIController::class, 'approve']);
     Route::post('leave-requests/{id}/reject', [LeaveRequestAPIController::class, 'reject']);
     Route::post('leave-requests/{id}/cancel', [LeaveRequestAPIController::class, 'cancel']);
@@ -196,6 +201,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('payroll-runs/{id}/pdf', [PayrollRunAPIController::class, 'pdf']);
     Route::get('payroll-runs/{id}/summary-excel', [PayrollRunAPIController::class, 'summaryExcel']);
     Route::get('payroll-runs/{id}/bank-excel', [PayrollRunAPIController::class, 'bankExcel']);
+    Route::get('payroll-runs/{id}/summary-pdf', [PayrollRunAPIController::class, 'summaryPdf']);
+    Route::get('payroll-runs/{id}/bank-pdf', [PayrollRunAPIController::class, 'bankPdf']);
     Route::resource('payroll-runs', PayrollRunAPIController::class)->only(['index', 'store', 'show', 'destroy']);
     Route::get('payslips/{id}/pdf', [PayslipAPIController::class, 'pdf']);
     Route::post('payslips/{id}/adjustments', [PayslipAPIController::class, 'addAdjustment']);
@@ -203,6 +210,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('payslips', PayslipAPIController::class)->only(['index', 'show']);
     Route::get('payroll-reports/epf', [PayrollReportAPIController::class, 'epf']);
     Route::get('payroll-reports/epf-excel', [PayrollReportAPIController::class, 'epfExcel']);
+    Route::get('payroll-reports/epf-pdf', [PayrollReportAPIController::class, 'epfPdf']);
     Route::get('my-payslips', [MyPayslipAPIController::class, 'index']);
     Route::get('my-payslips/{id}', [MyPayslipAPIController::class, 'show']);
     Route::get('my-payslips/{id}/pdf', [MyPayslipAPIController::class, 'pdf']);
@@ -334,7 +342,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('languages/translation/{language}/update', [LanguageAPIController::class, 'updateTranslation']);
     //    });
 
-    Route::resource('sms-settings', SmsSettingAPIController::class);
+    // before the resource route, otherwise sms-settings/{id} catches "balance"
+    Route::get('sms-settings/balance', [SmsSettingAPIController::class, 'balance']);
+    Route::post('sms-settings/test', [SmsSettingAPIController::class, 'test']);
+    Route::get('sms-logs', [SmsSettingAPIController::class, 'logs']);
+    Route::resource('sms-settings', SmsSettingAPIController::class)->only(['index']);
     Route::post('sms-settings', [SmsSettingAPIController::class, 'update']);
 
     Route::get('settings', [SettingAPIController::class, 'index']);
@@ -456,6 +468,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //stock report
     Route::get('stock-report', [ManageStockAPIController::class, 'stockReport'])->name('report-stockReport');
+
+    // KPI cards + charts above each report table (permission checked per type in the controller)
+    Route::get('report-summary/{type}', [ReportSummaryAPIController::class, 'show']);
     Route::get('stock-report-excel', [ReportAPIController::class, 'stockReportExcel'])->name('report-stockReportExcel');
     Route::get(
         'get-sale-product-report',
@@ -489,6 +504,20 @@ Route::middleware('auth:sanctum')->group(function () {
         [ReportAPIController::class, 'getPurchaseReturnProductReportExport']
     );
     Route::get('get-product-count', [ReportAPIController::class, 'getProductQuantity']);
+    // PDF versions of the Excel reports (same filters/query as their Excel export)
+    Route::get('sales-report-pdf', [ReportPdfAPIController::class, 'warehouseSales']);
+    Route::get('purchases-report-pdf', [ReportPdfAPIController::class, 'warehousePurchases']);
+    Route::get('sales-return-report-pdf', [ReportPdfAPIController::class, 'warehouseSaleReturns']);
+    Route::get('purchases-return-report-pdf', [ReportPdfAPIController::class, 'warehousePurchaseReturns']);
+    Route::get('expense-report-pdf', [ReportPdfAPIController::class, 'warehouseExpenses']);
+    Route::get('total-sale-report-pdf', [ReportPdfAPIController::class, 'totalSales']);
+    Route::get('total-purchase-report-pdf', [ReportPdfAPIController::class, 'totalPurchases']);
+    Route::get('top-selling-product-report-pdf', [ReportPdfAPIController::class, 'topSelling']);
+    Route::get('stock-report-pdf', [ReportPdfAPIController::class, 'stock']);
+    Route::get('get-product-sale-report-pdf', [ReportPdfAPIController::class, 'productSales']);
+    Route::get('get-product-purchase-report-pdf', [ReportPdfAPIController::class, 'productPurchases']);
+    Route::get('get-product-sale-return-report-pdf', [ReportPdfAPIController::class, 'productSaleReturns']);
+    Route::get('get-product-purchase-return-report-pdf', [ReportPdfAPIController::class, 'productPurchaseReturns']);
 
     Route::get('config', [UserAPIController::class, 'config']);
 

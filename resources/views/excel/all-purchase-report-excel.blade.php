@@ -32,9 +32,10 @@
                 <td>Pending</td>
             @elseif($purchase->status == \App\Models\Purchase::ORDERED)
                 <td>Ordered</td>
+            @else
+                <td></td>
             @endif
             <td style="float: left">{{number_format($purchase->grand_total,2)}}</td>
-            <td></td>
         </tr>
     @endforeach
     </tbody>

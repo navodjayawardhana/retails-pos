@@ -9,6 +9,7 @@ import {
 import { stockDetailsPurchaseReturnAction } from "../../../../store/action/stockDetailsPurchaseRetrunAction";
 import { fetchFrontSetting } from "../../../../store/action/frontSettingAction";
 import { stockDetailsPurchaseReturnExcel } from "../../../../store/action/stockDetailsPurchaseReturnExcel";
+import { useReportPdf } from "../../../../store/action/reportPdfAction";
 
 const PurchaseReturnTab = (props) => {
     const {
@@ -149,7 +150,12 @@ const PurchaseReturnTab = (props) => {
         stockDetailsPurchaseReturnAction(id, filter, true);
     };
 
-    const onExcelClick = () => {
+    const onReportPdfClick = useReportPdf(
+        () => `get-product-purchase-return-report-pdf?product_id=${id}`,
+        "product_purchase_return_report_pdf_url"
+    );
+
+    const onExcelClick =() => {
         setIsWarehouseValue(true);
     };
 
@@ -163,6 +169,8 @@ const PurchaseReturnTab = (props) => {
             totalRows={totalRecord}
             isEXCEL
             onExcelClick={onExcelClick}
+            isReportPdf
+            onReportPdfClick={onReportPdfClick}
         />
     );
 };

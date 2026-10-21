@@ -11,6 +11,7 @@ use App\Models\HrSetting;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Services\Hrm\LeaveService;
+use App\Services\ReportPdfService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -213,6 +214,28 @@ class LeaveRequestAPIController extends AppBaseController
         Excel::store(new LeaveBalanceExport($report), $path);
 
         return $this->sendResponse(['leave_excel_url' => Storage::url($path)], 'Leave balance export created successfully');
+    }
+
+    /**
+     * GET leave-reports/balances-pdf?year=&warehouse_id=&department_id= — returns a download URL.
+     */
+    public function balancePdf(Request $request, ReportPdfService $pdf): JsonResponse
+    {
+        $year = (int) ($request->get('year') ?: Carbon::parse(HrSetting::today())->year);
+        $filters = $request->only(['warehouse_id', 'department_id']);
+        $report = $this->leave->balanceReport($year, $filters);
+        $branch = ! empty($filters['warehouse_id']) ? optional(\App\Models\Warehouse::find($filters['warehouse_id']))->name : null;
+        $department = ! empty($filters['department_id']) ? optional(\App\Models\Department::find($filters['department_id']))->name : null;
+        $meta = [
+            'Year' => $year,
+            'Branch' => $branch ?: 'All branches',
+            'Department' => $department ?: 'All departments',
+            'Employees' => count($report['rows']),
+        ];
+
+        $url = $pdf->render('pdf.reports.leave-balances', compact('report', 'meta'), 'leave-balances-'.$year.'.pdf');
+
+        return $this->sendResponse(['leave_pdf_url' => $url], 'Leave balance PDF created successfully');
     }
 
     public function validated(Request $request, bool $withEmployee): array

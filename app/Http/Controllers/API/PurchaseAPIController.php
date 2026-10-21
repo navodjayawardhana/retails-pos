@@ -149,13 +149,13 @@ class PurchaseAPIController extends AppBaseController
 
         $companyLogo = getLogoUrl();
 
-        $companyLogo = (string) \Image::make($companyLogo)->encode('data-url');
+        $companyLogo = (string) \Image::make(getLogoImageSource())->encode('data-url');
 
         $pdf = PDF::loadView('pdf.purchase-pdf', compact('purchase','companyLogo'))->setOptions([
             'tempDir' => public_path(),
             'chroot' => public_path(),
         ]);
-        Storage::disk(config('app.media_disc'))->put('pdf/Purchase-'.$purchase->reference_code.'.pdf', $pdf->output());
+        Storage::disk(config('app.media_disc'))->put('pdf/Purchase-'.$purchase->reference_code.'.pdf', pdfWithPageNumbers($pdf)->output());
         $data['purchase_pdf_url'] = Storage::url('pdf/Purchase-'.$purchase->reference_code.'.pdf');
 
         return $this->sendResponse($data, 'pdf retrieved Successfully');

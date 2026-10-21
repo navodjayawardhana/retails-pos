@@ -105,6 +105,7 @@ import ProfitLossReport from "./components/report/ProfitLossReport/ProfitLossRep
 import CustomerReportDetails from "./components/report/customer-report/CustomerReportDetails";
 import CustomersReport from "./components/report/customer-report/CustomersReport";
 import SmsApi from "./components/sms-api/SmsApi";
+import SmsLogs from "./components/sms-api/SmsLogs";
 import EditSaleReturnFromSale from "./components/saleReturn/EditSaleReturnFromSale";
 import Language from "./components/languages/Language";
 import EditLanguageData from "./components/languages/EditLanguageData";
@@ -668,6 +669,11 @@ export const route = [
     {
         path: "sms-api",
         ele: <SmsApi />,
+        permission: Permissions.MANAGE_SMS_API,
+    },
+    {
+        path: "sms-logs",
+        ele: <SmsLogs />,
         permission: Permissions.MANAGE_SMS_API,
     },
     {
